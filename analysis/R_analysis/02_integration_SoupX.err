@@ -1,0 +1,1660 @@
+Loading required package: SingleCellExperiment
+Loading required package: SummarizedExperiment
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: 'MatrixGenerics'
+
+The following objects are masked from 'package:matrixStats':
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: 'BiocGenerics'
+
+The following objects are masked from 'package:stats':
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from 'package:base':
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+
+Attaching package: 'S4Vectors'
+
+The following objects are masked from 'package:base':
+
+    I, expand.grid, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: 'Biobase'
+
+The following object is masked from 'package:MatrixGenerics':
+
+    rowMedians
+
+The following objects are masked from 'package:matrixStats':
+
+    anyMissing, rowMedians
+
+Loading required package: scuttle
+Loading required package: ggplot2
+Warning messages:
+1: package 'SummarizedExperiment' was built under R version 4.2.2 
+2: package 'MatrixGenerics' was built under R version 4.2.2 
+3: package 'matrixStats' was built under R version 4.2.3 
+4: package 'GenomicRanges' was built under R version 4.2.2 
+The legacy packages maptools, rgdal, and rgeos, underpinning the sp package,
+which was just loaded, will retire in October 2023.
+Please refer to R-spatial evolution reports for details, especially
+https://r-spatial.org/r/2023/05/15/evolution4.html.
+It may be desirable to make the sf package available;
+package maintainers should consider adding sf to Suggests:.
+The sp package is now running under evolution status 2
+     (status 2 uses the sf package in place of rgdal)
+Attaching SeuratObject
+
+Attaching package: 'Seurat'
+
+The following object is masked from 'package:SummarizedExperiment':
+
+    Assays
+
+-- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+v dplyr     1.1.2     v readr     2.1.4
+v forcats   1.0.0     v stringr   1.5.0
+v lubridate 1.9.2     v tibble    3.2.1
+v purrr     1.0.1     v tidyr     1.3.0
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x lubridate::%within%() masks IRanges::%within%()
+x ggplot2::Position()   masks BiocGenerics::Position(), base::Position()
+x dplyr::collapse()     masks IRanges::collapse()
+x dplyr::combine()      masks Biobase::combine(), BiocGenerics::combine()
+x dplyr::count()        masks matrixStats::count()
+x dplyr::desc()         masks IRanges::desc()
+x tidyr::expand()       masks S4Vectors::expand()
+x dplyr::filter()       masks stats::filter()
+x dplyr::first()        masks S4Vectors::first()
+x dplyr::lag()          masks stats::lag()
+x purrr::reduce()       masks GenomicRanges::reduce(), IRanges::reduce()
+x dplyr::rename()       masks S4Vectors::rename()
+x lubridate::second()   masks S4Vectors::second()
+x lubridate::second<-() masks S4Vectors::second<-()
+x dplyr::slice()        masks IRanges::slice()
+i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+
+Attaching package: 'robustbase'
+
+The following object is masked from 'package:Biobase':
+
+    rowMedians
+
+The following objects are masked from 'package:MatrixGenerics':
+
+    colMedians, rowMedians
+
+The following objects are masked from 'package:matrixStats':
+
+    colMedians, rowMedians
+
+Rows: 20 Columns: 11
+-- Column specification --------------------------------------------------------
+Delimiter: ","
+chr (8): sample_id, official_id, facility, origin, patient, pathology, disea...
+dbl (3): age, PMI, year_of_extraction
+
+i Use `spec()` to retrieve the full column specification for this data.
+i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Scaling features for provided objects
+Finding all pairwise anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15908 anchors
+Filtering anchors
+	Retained 7903 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16907 anchors
+Filtering anchors
+	Retained 10543 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16489 anchors
+Filtering anchors
+	Retained 6641 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8310 anchors
+Filtering anchors
+	Retained 7368 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7865 anchors
+Filtering anchors
+	Retained 5941 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8709 anchors
+Filtering anchors
+	Retained 7520 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 10854 anchors
+Filtering anchors
+	Retained 4499 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15453 anchors
+Filtering anchors
+	Retained 4356 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13667 anchors
+Filtering anchors
+	Retained 3513 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 5734 anchors
+Filtering anchors
+	Retained 2888 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14754 anchors
+Filtering anchors
+	Retained 6763 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21359 anchors
+Filtering anchors
+	Retained 7507 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 17430 anchors
+Filtering anchors
+	Retained 6430 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7565 anchors
+Filtering anchors
+	Retained 3830 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18168 anchors
+Filtering anchors
+	Retained 3729 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14524 anchors
+Filtering anchors
+	Retained 11411 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12733 anchors
+Filtering anchors
+	Retained 7098 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14952 anchors
+Filtering anchors
+	Retained 10346 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7738 anchors
+Filtering anchors
+	Retained 6223 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 9289 anchors
+Filtering anchors
+	Retained 3985 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11931 anchors
+Filtering anchors
+	Retained 6782 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7587 anchors
+Filtering anchors
+	Retained 6248 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7985 anchors
+Filtering anchors
+	Retained 5698 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7998 anchors
+Filtering anchors
+	Retained 6574 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 5286 anchors
+Filtering anchors
+	Retained 4508 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6096 anchors
+Filtering anchors
+	Retained 3726 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8026 anchors
+Filtering anchors
+	Retained 5381 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6999 anchors
+Filtering anchors
+	Retained 5787 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20224 anchors
+Filtering anchors
+	Retained 10341 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 24537 anchors
+Filtering anchors
+	Retained 9015 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22340 anchors
+Filtering anchors
+	Retained 10169 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8694 anchors
+Filtering anchors
+	Retained 4650 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19174 anchors
+Filtering anchors
+	Retained 4166 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 29006 anchors
+Filtering anchors
+	Retained 8738 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15368 anchors
+Filtering anchors
+	Retained 7741 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8769 anchors
+Filtering anchors
+	Retained 3752 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11943 anchors
+Filtering anchors
+	Retained 7015 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16457 anchors
+Filtering anchors
+	Retained 6773 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13578 anchors
+Filtering anchors
+	Retained 6203 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6051 anchors
+Filtering anchors
+	Retained 3913 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14688 anchors
+Filtering anchors
+	Retained 4825 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20292 anchors
+Filtering anchors
+	Retained 8107 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 10196 anchors
+Filtering anchors
+	Retained 5742 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6728 anchors
+Filtering anchors
+	Retained 3435 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22972 anchors
+Filtering anchors
+	Retained 10441 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13642 anchors
+Filtering anchors
+	Retained 9425 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16281 anchors
+Filtering anchors
+	Retained 7587 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13397 anchors
+Filtering anchors
+	Retained 7779 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6732 anchors
+Filtering anchors
+	Retained 4663 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14183 anchors
+Filtering anchors
+	Retained 4865 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18538 anchors
+Filtering anchors
+	Retained 8196 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 10680 anchors
+Filtering anchors
+	Retained 7017 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6732 anchors
+Filtering anchors
+	Retained 3860 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 23405 anchors
+Filtering anchors
+	Retained 12674 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16321 anchors
+Filtering anchors
+	Retained 8141 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16977 anchors
+Filtering anchors
+	Retained 9491 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18605 anchors
+Filtering anchors
+	Retained 6594 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21411 anchors
+Filtering anchors
+	Retained 10724 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8606 anchors
+Filtering anchors
+	Retained 5144 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16000 anchors
+Filtering anchors
+	Retained 2523 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19918 anchors
+Filtering anchors
+	Retained 5839 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14442 anchors
+Filtering anchors
+	Retained 8220 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8421 anchors
+Filtering anchors
+	Retained 4404 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22662 anchors
+Filtering anchors
+	Retained 9337 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14843 anchors
+Filtering anchors
+	Retained 4832 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14345 anchors
+Filtering anchors
+	Retained 6397 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20779 anchors
+Filtering anchors
+	Retained 10375 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 23503 anchors
+Filtering anchors
+	Retained 7726 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 23277 anchors
+Filtering anchors
+	Retained 10348 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 9414 anchors
+Filtering anchors
+	Retained 4602 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16912 anchors
+Filtering anchors
+	Retained 2777 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 23382 anchors
+Filtering anchors
+	Retained 6040 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 17173 anchors
+Filtering anchors
+	Retained 8731 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 9301 anchors
+Filtering anchors
+	Retained 3875 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 29538 anchors
+Filtering anchors
+	Retained 10928 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 17814 anchors
+Filtering anchors
+	Retained 5060 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18309 anchors
+Filtering anchors
+	Retained 6834 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 26607 anchors
+Filtering anchors
+	Retained 11171 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13217 anchors
+Filtering anchors
+	Retained 3205 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22828 anchors
+Filtering anchors
+	Retained 3974 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22079 anchors
+Filtering anchors
+	Retained 2623 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7631 anchors
+Filtering anchors
+	Retained 1766 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20437 anchors
+Filtering anchors
+	Retained 2965 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 29829 anchors
+Filtering anchors
+	Retained 4718 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13274 anchors
+Filtering anchors
+	Retained 2441 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8427 anchors
+Filtering anchors
+	Retained 1554 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 34218 anchors
+Filtering anchors
+	Retained 5767 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21606 anchors
+Filtering anchors
+	Retained 4504 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18816 anchors
+Filtering anchors
+	Retained 4102 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 27270 anchors
+Filtering anchors
+	Retained 2779 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 27864 anchors
+Filtering anchors
+	Retained 3990 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12714 anchors
+Filtering anchors
+	Retained 2900 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21851 anchors
+Filtering anchors
+	Retained 3143 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20671 anchors
+Filtering anchors
+	Retained 2255 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6957 anchors
+Filtering anchors
+	Retained 1809 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22818 anchors
+Filtering anchors
+	Retained 3807 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 29333 anchors
+Filtering anchors
+	Retained 4654 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12548 anchors
+Filtering anchors
+	Retained 2698 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7864 anchors
+Filtering anchors
+	Retained 1548 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 31998 anchors
+Filtering anchors
+	Retained 5519 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22287 anchors
+Filtering anchors
+	Retained 4804 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19021 anchors
+Filtering anchors
+	Retained 4115 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 24814 anchors
+Filtering anchors
+	Retained 2549 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 25030 anchors
+Filtering anchors
+	Retained 3337 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 47674 anchors
+Filtering anchors
+	Retained 3696 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3783 anchors
+Filtering anchors
+	Retained 2209 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3878 anchors
+Filtering anchors
+	Retained 1821 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3824 anchors
+Filtering anchors
+	Retained 1612 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3474 anchors
+Filtering anchors
+	Retained 1893 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3746 anchors
+Filtering anchors
+	Retained 2066 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3874 anchors
+Filtering anchors
+	Retained 1759 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3796 anchors
+Filtering anchors
+	Retained 2081 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3520 anchors
+Filtering anchors
+	Retained 1851 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3918 anchors
+Filtering anchors
+	Retained 1846 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3815 anchors
+Filtering anchors
+	Retained 1892 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3772 anchors
+Filtering anchors
+	Retained 2123 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3866 anchors
+Filtering anchors
+	Retained 2090 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3914 anchors
+Filtering anchors
+	Retained 1886 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3851 anchors
+Filtering anchors
+	Retained 1312 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3848 anchors
+Filtering anchors
+	Retained 1442 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14108 anchors
+Filtering anchors
+	Retained 4669 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22140 anchors
+Filtering anchors
+	Retained 5661 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21452 anchors
+Filtering anchors
+	Retained 3690 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7575 anchors
+Filtering anchors
+	Retained 2361 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21727 anchors
+Filtering anchors
+	Retained 2931 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 27717 anchors
+Filtering anchors
+	Retained 5705 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13064 anchors
+Filtering anchors
+	Retained 3770 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8111 anchors
+Filtering anchors
+	Retained 2022 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 32367 anchors
+Filtering anchors
+	Retained 7497 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20053 anchors
+Filtering anchors
+	Retained 4818 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18357 anchors
+Filtering anchors
+	Retained 4868 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 27743 anchors
+Filtering anchors
+	Retained 4136 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 28269 anchors
+Filtering anchors
+	Retained 5977 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 50813 anchors
+Filtering anchors
+	Retained 5124 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 47701 anchors
+Filtering anchors
+	Retained 5813 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3935 anchors
+Filtering anchors
+	Retained 271 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 10395 anchors
+Filtering anchors
+	Retained 6147 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13700 anchors
+Filtering anchors
+	Retained 6455 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11219 anchors
+Filtering anchors
+	Retained 4658 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6101 anchors
+Filtering anchors
+	Retained 3733 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11865 anchors
+Filtering anchors
+	Retained 5157 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15097 anchors
+Filtering anchors
+	Retained 7210 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8946 anchors
+Filtering anchors
+	Retained 4963 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6336 anchors
+Filtering anchors
+	Retained 3196 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16791 anchors
+Filtering anchors
+	Retained 8243 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13132 anchors
+Filtering anchors
+	Retained 6783 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12716 anchors
+Filtering anchors
+	Retained 7309 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13003 anchors
+Filtering anchors
+	Retained 5450 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14968 anchors
+Filtering anchors
+	Retained 6856 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16034 anchors
+Filtering anchors
+	Retained 4012 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 17008 anchors
+Filtering anchors
+	Retained 6300 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3730 anchors
+Filtering anchors
+	Retained 888 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16096 anchors
+Filtering anchors
+	Retained 5256 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20539 anchors
+Filtering anchors
+	Retained 10238 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 24510 anchors
+Filtering anchors
+	Retained 9452 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20096 anchors
+Filtering anchors
+	Retained 8943 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8634 anchors
+Filtering anchors
+	Retained 4162 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18379 anchors
+Filtering anchors
+	Retained 3279 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 25157 anchors
+Filtering anchors
+	Retained 7116 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14608 anchors
+Filtering anchors
+	Retained 7176 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8664 anchors
+Filtering anchors
+	Retained 3506 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 31574 anchors
+Filtering anchors
+	Retained 12219 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19619 anchors
+Filtering anchors
+	Retained 6206 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19891 anchors
+Filtering anchors
+	Retained 8072 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22699 anchors
+Filtering anchors
+	Retained 8751 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 31669 anchors
+Filtering anchors
+	Retained 13417 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 29428 anchors
+Filtering anchors
+	Retained 3980 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 27764 anchors
+Filtering anchors
+	Retained 3992 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3920 anchors
+Filtering anchors
+	Retained 382 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 30059 anchors
+Filtering anchors
+	Retained 5692 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15749 anchors
+Filtering anchors
+	Retained 5647 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19673 anchors
+Filtering anchors
+	Retained 10340 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21858 anchors
+Filtering anchors
+	Retained 7684 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22675 anchors
+Filtering anchors
+	Retained 9447 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 9233 anchors
+Filtering anchors
+	Retained 4685 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 17267 anchors
+Filtering anchors
+	Retained 3397 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22465 anchors
+Filtering anchors
+	Retained 6535 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 17148 anchors
+Filtering anchors
+	Retained 8488 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 9003 anchors
+Filtering anchors
+	Retained 3837 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 26802 anchors
+Filtering anchors
+	Retained 10444 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16450 anchors
+Filtering anchors
+	Retained 5237 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15893 anchors
+Filtering anchors
+	Retained 7116 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 25475 anchors
+Filtering anchors
+	Retained 10216 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 29155 anchors
+Filtering anchors
+	Retained 12378 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 29824 anchors
+Filtering anchors
+	Retained 2889 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 27579 anchors
+Filtering anchors
+	Retained 3676 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3852 anchors
+Filtering anchors
+	Retained 315 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 29885 anchors
+Filtering anchors
+	Retained 4557 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14180 anchors
+Filtering anchors
+	Retained 4839 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 27144 anchors
+Filtering anchors
+	Retained 10900 anchors
+Warning message:
+In CheckDuplicateCellNames(object.list = object.list) :
+  Some cell names are duplicated across objects provided. Renaming to enforce unique cell names.
+Merging dataset 4 into 3
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 16 into 1
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 8 into 7
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 7 8 into 1 16
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 11 into 9
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 18 into 9 11
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 3 4 into 1 16 7 8
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 10 into 9 11 18
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 2 into 19
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 12 into 1 16 7 8 3 4
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 13 into 1 16 7 8 3 4 12
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 20 into 19 2
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 6 into 9 11 18 10
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 5 into 15
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 19 2 20 into 9 11 18 10 6
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 1 16 7 8 3 4 12 13 into 9 11 18 10 6 19 2 20
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 17 into 9 11 18 10 6 19 2 20 1 16 7 8 3 4 12 13
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 14 into 15 5
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 15 5 14 into 9 11 18 10 6 19 2 20 1 16 7 8 3 4 12 13 17
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Warning: The following features are not present in the object: MLF1IP, not searching for symbol synonyms
+Warning: The following features are not present in the object: UBE2C, FAM64A, AURKB, HN1, not searching for symbol synonyms
+Regressing out percent.mt, nCount_RNA, S.Score, G2M.Score
+  |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |==                                                                    |   4%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |=====                                                                 |   8%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |=======                                                               |  11%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |=========                                                             |  14%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  16%  |                                                                              |============                                                          |  17%  |                                                                              |============                                                          |  18%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |==============                                                        |  21%  |                                                                              |===============                                                       |  21%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  22%  |                                                                              |================                                                      |  23%  |                                                                              |================                                                      |  24%  |                                                                              |=================                                                     |  24%  |                                                                              |=================                                                     |  25%  |                                                                              |==================                                                    |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  26%  |                                                                              |===================                                                   |  27%  |                                                                              |===================                                                   |  28%  |                                                                              |====================                                                  |  28%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  29%  |                                                                              |=====================                                                 |  30%  |                                                                              |=====================                                                 |  31%  |                                                                              |======================                                                |  31%  |                                                                              |======================                                                |  32%  |                                                                              |=======================                                               |  32%  |                                                                              |=======================                                               |  33%  |                                                                              |=======================                                               |  34%  |                                                                              |========================                                              |  34%  |                                                                              |========================                                              |  35%  |                                                                              |=========================                                             |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  36%  |                                                                              |==========================                                            |  37%  |                                                                              |==========================                                            |  38%  |                                                                              |===========================                                           |  38%  |                                                                              |===========================                                           |  39%  |                                                                              |============================                                          |  39%  |                                                                              |============================                                          |  40%  |                                                                              |============================                                          |  41%  |                                                                              |=============================                                         |  41%  |                                                                              |=============================                                         |  42%  |                                                                              |==============================                                        |  42%  |                                                                              |==============================                                        |  43%  |                                                                              |==============================                                        |  44%  |                                                                              |===============================                                       |  44%  |                                                                              |===============================                                       |  45%  |                                                                              |================================                                      |  45%  |                                                                              |================================                                      |  46%  |                                                                              |=================================                                     |  46%  |                                                                              |=================================                                     |  47%  |                                                                              |=================================                                     |  48%  |                                                                              |==================================                                    |  48%  |                                                                              |==================================                                    |  49%  |                                                                              |===================================                                   |  49%  |                                                                              |===================================                                   |  50%  |                                                                              |===================================                                   |  51%  |                                                                              |====================================                                  |  51%  |                                                                              |====================================                                  |  52%  |                                                                              |=====================================                                 |  52%  |                                                                              |=====================================                                 |  53%  |                                                                              |=====================================                                 |  54%  |                                                                              |======================================                                |  54%  |                                                                              |======================================                                |  55%  |                                                                              |=======================================                               |  55%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  56%  |                                                                              |========================================                              |  57%  |                                                                              |========================================                              |  58%  |                                                                              |=========================================                             |  58%  |                                                                              |=========================================                             |  59%  |                                                                              |==========================================                            |  59%  |                                                                              |==========================================                            |  60%  |                                                                              |==========================================                            |  61%  |                                                                              |===========================================                           |  61%  |                                                                              |===========================================                           |  62%  |                                                                              |============================================                          |  62%  |                                                                              |============================================                          |  63%  |                                                                              |============================================                          |  64%  |                                                                              |=============================================                         |  64%  |                                                                              |=============================================                         |  65%  |                                                                              |==============================================                        |  65%  |                                                                              |==============================================                        |  66%  |                                                                              |===============================================                       |  66%  |                                                                              |===============================================                       |  67%  |                                                                              |===============================================                       |  68%  |                                                                              |================================================                      |  68%  |                                                                              |================================================                      |  69%  |                                                                              |=================================================                     |  69%  |                                                                              |=================================================                     |  70%  |                                                                              |=================================================                     |  71%  |                                                                              |==================================================                    |  71%  |                                                                              |==================================================                    |  72%  |                                                                              |===================================================                   |  72%  |                                                                              |===================================================                   |  73%  |                                                                              |===================================================                   |  74%  |                                                                              |====================================================                  |  74%  |                                                                              |====================================================                  |  75%  |                                                                              |=====================================================                 |  75%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  76%  |                                                                              |======================================================                |  77%  |                                                                              |======================================================                |  78%  |                                                                              |=======================================================               |  78%  |                                                                              |=======================================================               |  79%  |                                                                              |========================================================              |  79%  |                                                                              |========================================================              |  80%  |                                                                              |========================================================              |  81%  |                                                                              |=========================================================             |  81%  |                                                                              |=========================================================             |  82%  |                                                                              |==========================================================            |  82%  |                                                                              |==========================================================            |  83%  |                                                                              |==========================================================            |  84%  |                                                                              |===========================================================           |  84%  |                                                                              |===========================================================           |  85%  |                                                                              |============================================================          |  85%  |                                                                              |============================================================          |  86%  |                                                                              |=============================================================         |  86%  |                                                                              |=============================================================         |  87%  |                                                                              |=============================================================         |  88%  |                                                                              |==============================================================        |  88%  |                                                                              |==============================================================        |  89%  |                                                                              |===============================================================       |  89%  |                                                                              |===============================================================       |  90%  |                                                                              |===============================================================       |  91%  |                                                                              |================================================================      |  91%  |                                                                              |================================================================      |  92%  |                                                                              |=================================================================     |  92%  |                                                                              |=================================================================     |  93%  |                                                                              |=================================================================     |  94%  |                                                                              |==================================================================    |  94%  |                                                                              |==================================================================    |  95%  |                                                                              |===================================================================   |  95%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  96%  |                                                                              |====================================================================  |  97%  |                                                                              |====================================================================  |  98%  |                                                                              |===================================================================== |  98%  |                                                                              |===================================================================== |  99%  |                                                                              |======================================================================|  99%  |                                                                              |======================================================================| 100%
+Centering and scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric
+To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'
+This message will be shown once per session
+23:36:53 UMAP embedding parameters a = 0.9922 b = 1.112
+23:36:53 Read 253999 rows and found 30 numeric columns
+23:36:53 Using Annoy for neighbor search, n_neighbors = 30
+23:36:53 Building Annoy index with metric = cosine, n_trees = 50
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+23:37:33 Writing NN index file to temp file /tmp/Rtmp8YJKe6/file235962e7f68
+23:37:33 Searching Annoy index using 1 thread, search_k = 3000
+23:39:55 Annoy recall = 100%
+23:39:57 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+23:40:09 Initializing from normalized Laplacian + noise (using irlba)
+23:42:07 Commencing optimization for 200 epochs, with 12702048 positive edges
+Using method 'umap'
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+23:48:36 Optimization finished
+Computing nearest neighbor graph
+Computing SNN
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+6 singletons identified. 17 final clusters.

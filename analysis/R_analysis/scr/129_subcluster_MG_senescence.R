@@ -1,0 +1,130 @@
+# AIM ---------------------------------------------------------------------
+# the aim is to plot the data after integration. in particular to plot the senescence cells
+
+# libraries ---------------------------------------------------------------
+library(harmony)
+library(Seurat)
+library(dplyr)
+library(cowplot)
+library(tidyverse)
+library(ggrepel)
+library(scales)
+library(RColorBrewer)
+library(SeuratWrappers)
+library(dittoSeq)
+library(clustree)
+library(pals)
+library(patchwork)
+library(ComplexHeatmap)
+
+# read in the data --------------------------------------------------------
+data.combined <- readRDS("../../out/object/129_MG_subcluster_HarmonySample.rds")
+# data.combined2 <- readRDS("../../out/object/100_MG_subcluster_HarmonyRun.rds")
+(DimPlot(data.combined,group.by = "dataset") + ggtitle("Harmony Sample"))
+(DimPlot(data.combined,group.by = "pathology_class",split.by = "dataset") + ggtitle("Harmony Sample"))
+
+# load the senescence signautre scores
+sen_sig <- readRDS("/beegfs/scratch/ric.cosr/pedrini.edoardo/scRNAseq_Brainsphere_Absinta/BS_batch_2023/data/signatures/senescence_pathways.rds") %>%
+  lapply(function(x){
+    x %>%
+      pull("Genes")
+  })
+
+
+
+# plots -------------------------------------------------------------------
+# score the signatures for senescence
+data.combined <- Seurat::AddModuleScore(data.combined,
+                                        features = sen_sig,
+                                        name = "_score")
+
+df_rename_long <- data.frame(names = data.combined@meta.data %>%
+                               colnames() %>%
+                               str_subset("_score"),
+                             rename = paste0("scoreSen_",names(sen_sig)))
+
+lookup_long <- df_rename_long$names
+names(lookup_long) <- df_rename_long$rename
+
+# rename the columns
+data.combined@meta.data <- dplyr::rename(data.combined@meta.data,all_of(lookup_long))
+
+# plot the scores from AddModuleScore
+list_plot_02_long <- lapply(df_rename_long$rename,function(x){
+  plot <- FeaturePlot(data.combined,features = x,order = T,
+                      reduction = "umap",
+                      raster = T) + scale_color_viridis_c(option = "turbo")
+  return(plot)
+})
+
+wrap_plots(list_plot_02_long)
+ggsave("../../out/image/129_UMAP_senescence_IMMLYMsubset.pdf",width = 25,height = 20)
+
+# same as above but as violin plot
+list_plot <- lapply(df_rename_long$rename, function(x){ 
+  test <- VlnPlot(object = data.combined,features = x, group.by = "RNA_snn_res.0.1",raster = T)
+  return(test)
+})
+
+# make it a dataframe
+# x <- list_plot[[1]]
+df_violin <- lapply(list_plot,function(x){ 
+  df <- x[[1]]$data 
+  
+  # extract the name of the gene 
+  feature <- colnames(df)[1] 
+  
+  df %>% 
+    mutate(feature = feature) %>% 
+    setNames(c("value","ident","feature")) 
+}) %>% 
+  bind_rows()
+
+head(df_violin) 
+
+# # plot at maximum 1000 cells per group
+# set.seed(123)
+# df_plot_violin <- df_violin %>% 
+#   group_by(ident,feature) %>%
+#   sample_n(size = 150,replace = F) %>%
+#   ungroup()
+# 
+# df_plot_violin_summary <- df_plot_violin %>%
+#   group_by(feature) %>%
+#   summarise(med_score = median(value))
+# 
+# df_plot_violin %>%
+#   ggplot(aes(y = ident, x = value)) + 
+#   geom_violin(scale = "width")+ 
+#   #geom_boxplot(outlier.shape = NA,position = position_dodge(width=0.9),width=0.05) + 
+#   geom_point(position = position_jitter(width = 0.2),alpha = 0.05,size = 0.5) + 
+#   facet_wrap(~feature,nrow = 1,scales = "free") + 
+#   theme_bw() + 
+#   geom_vline(data = df_plot_violin_summary,aes(xintercept = med_score),linetype="dashed",col="red") +
+#   theme(strip.background = element_blank(),
+#         axis.text.x = element_text(hjust = 1,angle = 45))
+# ggsave("../../out/image/122_Violin_senescence_res0.2.pdf",width = 30,height = 4)
+
+# plot the average score per signature per cluster as a heatmap
+df_senescence <- data.combined@meta.data %>%
+  dplyr::select(RNA_snn_res.0.1,contains("scoreSen_")) %>%
+  pivot_longer(names_to = "signature",values_to = "score",-RNA_snn_res.0.1) %>%
+  group_by(RNA_snn_res.0.1,signature) %>%
+  summarise(avg_score = mean(score),
+            med_score = median(score)) %>%
+  mutate(cluster_id = paste0("clu_",RNA_snn_res.0.1,"_res0.1")) %>%
+  ungroup()
+
+mat_senescence_avg <- df_senescence %>%
+  group_by(signature) %>%
+  mutate(scaled_avg_score = (avg_score - mean(avg_score))/sd(avg_score)) %>%
+  ungroup() %>%
+  select(signature,cluster_id,scaled_avg_score) %>%
+  pivot_wider(names_from = cluster_id,values_from = scaled_avg_score) %>%
+  column_to_rownames("signature")
+
+hm01 <- Heatmap(mat_senescence_avg,name = "scaled_avg_exp")
+
+pdf("../../out/image/129_heatmap_senescence_res0.1_IMMLYMsubset.pdf",width = 9,height = 5)
+draw(hm01,heatmap_legend_side = "left",padding = unit(c(2, 2, 2, 80), "mm"))
+dev.off()

@@ -1,0 +1,321 @@
+             used    (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells    9790004   522.9   14313342   764.5   14313342   764.5
+Vcells 2395623394 18277.2 4379923838 33416.2 3653670102 27875.3
+<0 x 0 matrix>
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 7302269
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9871
+Number of communities: 23
+Elapsed time: 127 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 7302269
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9805
+Number of communities: 28
+Elapsed time: 139 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 7302269
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9748
+Number of communities: 33
+Elapsed time: 134 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 7302269
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9695
+Number of communities: 36
+Elapsed time: 106 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 7302269
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9649
+Number of communities: 42
+Elapsed time: 109 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 7302269
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9611
+Number of communities: 45
+Elapsed time: 125 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 7302269
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9575
+Number of communities: 50
+Elapsed time: 111 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 7302269
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9540
+Number of communities: 53
+Elapsed time: 114 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 7302269
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9506
+Number of communities: 56
+Elapsed time: 107 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 7302269
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9478
+Number of communities: 57
+Elapsed time: 110 seconds
+                      harmony_1   harmony_2  harmony_3 harmony_4  harmony_5
+s1_AAACGAACAGATTCGT-1 -6.055224   0.8566561 -2.5192389 0.5167773 -14.275633
+s1_AAACGAACAGGCACTC-1 -3.534324  -7.0029049 26.0325424 0.7098515  -1.437612
+s1_AAACGAAGTCGCCTAG-1 -6.076208 -16.3661219 -5.4487611 2.8761737  -2.169346
+s1_AAACGCTAGCGAGAAA-1 -3.297831 -12.5460869 -8.4115416 4.0445909   1.890015
+s1_AAACGCTGTTTGTGGT-1 23.662676  -0.4668970 -0.7965925 6.6688332   1.229105
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 6541223
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9795
+Number of communities: 17
+Elapsed time: 115 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 6541223
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9664
+Number of communities: 21
+Elapsed time: 121 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 6541223
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9542
+Number of communities: 26
+Elapsed time: 105 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 6541223
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9434
+Number of communities: 28
+Elapsed time: 108 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 6541223
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9347
+Number of communities: 30
+Elapsed time: 119 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 6541223
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9278
+Number of communities: 31
+Elapsed time: 135 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 6541223
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9210
+Number of communities: 34
+Elapsed time: 109 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 6541223
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9153
+Number of communities: 40
+Elapsed time: 126 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 6541223
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9103
+Number of communities: 40
+Elapsed time: 126 seconds
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 212296
+Number of edges: 6541223
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9052
+Number of communities: 44
+Elapsed time: 132 seconds
+20 x 10 sparse Matrix of class "dgCMatrix"
+                              
+AL627309.1 . . . . . . . . . .
+AL627309.5 . . . . . . . . . .
+AL627309.4 . . . . . . . . . .
+AL669831.2 . . . . . . . . . .
+LINC01409  . . . . . . . . . .
+FAM87B     . . . . . . . . . .
+LINC01128  . . . . . . . . . .
+LINC00115  . . . . . . . . . .
+FAM41C     . . . . . . . . . .
+AL645608.6 . . . . . . . . . .
+AL645608.2 . . . . . . . . . .
+LINC02593  . . . . . . . . . .
+SAMD11     . . . . . . . . . .
+NOC2L      . . . . . . . . . .
+KLHL17     . . . . . . . . . .
+PLEKHN1    . . . . . . . . . .
+AL645608.7 . . . . . . . . . .
+HES4       . . . . . . . . . .
+ISG15      . . . . . . . . . .
+AL645608.1 . . . . . . . . . .
+20 x 10 sparse Matrix of class "dgCMatrix"
+                              
+AL627309.1 . . . . . . . . . .
+AL627309.5 . . . . . . . . . .
+AL627309.4 . . . . . . . . . .
+AL669831.2 . . . . . . . . . .
+LINC01409  . . . . . . . . . .
+FAM87B     . . . . . . . . . .
+LINC01128  . . . . . . . . . .
+LINC00115  . . . . . . . . . .
+FAM41C     . . . . . . . . . .
+AL645608.6 . . . . . . . . . .
+AL645608.2 . . . . . . . . . .
+LINC02593  . . . . . . . . . .
+SAMD11     . . . . . . . . . .
+NOC2L      . . . . . . . . . .
+KLHL17     . . . . . . . . . .
+PLEKHN1    . . . . . . . . . .
+AL645608.7 . . . . . . . . . .
+HES4       . . . . . . . . . .
+ISG15      . . . . . . . . . .
+AL645608.1 . . . . . . . . . .
+           s1_AAACGAACAGATTCGT-1 s1_AAACGAACAGGCACTC-1 s1_AAACGAAGTCGCCTAG-1
+HES4                -0.181865240          -0.071083341           -0.09987201
+HES5                -0.049488568          -0.048590106           -0.04780270
+TTC34               -0.339103138          -0.213348760           -0.23879917
+PRDM16              -0.404287603          -0.360644303           -0.39767219
+AL365255.1          -0.006206059           0.008812525           -0.01779417
+CHD5                -0.181589720           0.044602541           -0.01813445
+SLC2A5              -0.582336638          -0.391774335           -0.42769771
+MIR34AHG            -0.347524226          -0.215592581           -0.25968225
+SPSB1               -0.396986557          -0.616785763           -0.60118399
+CORT                -0.068351617          -0.043130417           -0.04505146
+TNFRSF1B            -0.644691476          -0.457026952           -0.50363692
+DHRS3                5.354243662          -0.389139121           -0.43642800
+C1orf158            -0.265684478          -0.165511453           -0.18159421
+KAZN                -0.797660524          -0.789260992           -0.81034492
+AL357873.1          -0.010261064          -0.033665294           -0.07968979
+KAZN-AS1             0.009350380          -0.013201572           -0.05673438
+TMEM51              -0.398646403           5.632231546           -0.31203203
+FHAD1               -0.344619794          -0.191245933           -0.22849045
+SRARP               -0.222970681          -0.111692440           -0.13857028
+PADI2               -0.731178427          -0.940257342           -0.91872907
+           s1_AAACGCTAGCGAGAAA-1 s1_AAACGCTGTTTGTGGT-1 s1_AAAGAACTCCCTTGTG-1
+HES4                 -0.12745663           -0.05279215          -0.109524659
+HES5                 -0.04407483           -0.01956905          -0.050809527
+TTC34                -0.27292923           -0.22596758          -0.248734489
+PRDM16                4.23722810           -0.30276883          -0.390397730
+AL365255.1            0.02914012           -0.07251913           0.003205772
+CHD5                 -0.04120406            1.83817826          -0.006591812
+SLC2A5               -0.48513834           -0.31870080          -0.454201035
+MIR34AHG             -0.25722704           -0.24348279          -0.258419884
+SPSB1                -0.52105995           -0.55971208          -0.576167394
+CORT                 -0.06029314           -0.02591553          -0.051193391
+TNFRSF1B             -0.54020681           -0.37987367          -0.524354103
+DHRS3                -0.44189400           -0.34177770          -0.445265575
+C1orf158             -0.21786510           -0.16760648          -0.192783845
+KAZN                  0.83804685           -0.15450170          -0.762014186
+AL357873.1            0.04221320           -0.10461221          -0.039961944
+KAZN-AS1              0.06121444           -0.09732349          -0.016947161
+TMEM51               -0.32199295           -0.24843513          -0.320230329
+FHAD1                -0.26247413           -0.21723986          -0.236608815
+SRARP                -0.17729096           -0.06326602          -0.153499830
+PADI2                -0.84684075           -0.86308046          -0.899988902
+           s1_AAAGAACTCGCCTTGT-1 s1_AAAGGATTCATCTGTT-1 s1_AAAGGATTCTATCGGA-1
+HES4                 -0.10700388          -0.100989667           -0.10374996
+HES5                 -0.05382074          -0.053226849           -0.04734371
+TTC34                -0.27134673          -0.253041023           -0.26185010
+PRDM16               -0.43756242          -0.392406917           -0.33970061
+AL365255.1           -0.05336642          -0.003403657            0.02227025
+CHD5                 -0.12352636          -0.031311826           -0.04034437
+SLC2A5               -0.45926168          -0.452426106           -0.45961692
+MIR34AHG             -0.31083990          -0.263900606           -0.24812384
+SPSB1                -0.48083684          -0.529317560           -0.49567985
+CORT                 -0.04291698          -0.049172543           -0.05460686
+TNFRSF1B             -0.53427260          -0.517999512           -0.51057642
+DHRS3                 4.46834096          -0.441939419           -0.42119522
+C1orf158             -0.20292523          -0.195690004           -0.20815459
+KAZN                  0.75693248           0.681193486            1.11538203
+AL357873.1           -0.13580834          -0.047943386            0.02604469
+KAZN-AS1             -0.11713480          -0.027975746            0.04191477
+TMEM51               -0.34709834          -0.321580285           -0.30959458
+FHAD1                -0.26379210          -0.237745676           -0.24431687
+SRARP                -0.12654837          -0.136846135           -0.14395636
+PADI2                -0.81443751          -0.862032527           -0.83056455
+           s1_AAAGGGCCATCAGTGT-1
+HES4                 -0.07520533
+HES5                 -0.04096813
+TTC34                -0.23962082
+PRDM16                3.08477009
+AL365255.1           -0.04351294
+CHD5                 -0.09302164
+SLC2A5               -0.38986418
+MIR34AHG             -0.26076405
+SPSB1                -0.53564167
+CORT                 -0.03650525
+TNFRSF1B             -0.45591230
+DHRS3                -0.40167256
+C1orf158             -0.18039342
+KAZN                  1.31117955
+AL357873.1           -0.09691833
+KAZN-AS1             -0.08252367
+TMEM51               -0.29264592
+FHAD1                -0.22651652
+SRARP                -0.09558938
+PADI2                -0.85811617
+[1]  29722 212296
+[1]  29722 212296
+[1]   4000 212296

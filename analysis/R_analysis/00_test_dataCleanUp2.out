@@ -1,0 +1,23 @@
+[1] 1
+[1] 2
+[1] 3
+[1] 4
+[1] 5
+[1] 6
+[1] 7
+[1] 8
+[1] 9
+[1] 10
+[1] 11
+[1] 12
+[1] 13
+[1] 14
+[1] 15
+An object of class Seurat 
+29722 features across 260287 samples within 1 assay 
+Active assay: RNA (29722 features, 4000 variable features)
+ 3 dimensional reductions calculated: pca, umap, harmony
+An object of class Seurat 
+29722 features across 224578 samples within 1 assay 
+Active assay: RNA (29722 features, 4000 variable features)
+ 3 dimensional reductions calculated: pca, umap, harmony

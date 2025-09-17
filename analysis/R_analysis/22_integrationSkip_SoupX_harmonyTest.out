@@ -1,0 +1,37 @@
+An object of class Seurat 
+35754 features across 262576 samples within 2 assays 
+Active assay: RNA (33754 features, 0 variable features)
+ 1 other assay present: integrated
+
+   s1   s10   s11   s13   s14   s15   s17   s18   s19    s2   s20   s22   s23 
+ 1384  4369  5830   439  4496  1797  1227  2955  6194  4597  5710  2729  5137 
+  s25   s26   s27    s3   s31   s35   s39    s4   s41   s42   s43   s44   s45 
+ 3652  9582  2338  1640  3127 14826 13980  1795  8948 10149  9196  2198  2568 
+  s46   s47   s48   s49    s5   s51   s53   s54   s55   s57    s6   s60   s65 
+ 4446  9936  6461  6202  3717  9715 16945  5262 16659 10868  2180 16331  5906 
+  s69    s7    s8    s9 
+ 6849  3987  2269  3980 
+[1]  33754 262576
+[1] 262576
+10 x 21 sparse Matrix of class "dgCMatrix"
+                                                    
+AL627309.1 . . . . . . . . . . . . . . . . . . . . .
+AL627309.2 . . . . . . . . . . . . . . . . . . . . .
+AC114498.1 . . . . . . . . . . . . . . . . . . . . .
+AL669831.2 . . . . . . . . . . . . . . . . . . . . .
+AL669831.5 . . . . . . . . . 3 . . . . . . . . . . .
+FAM87B     . . . . . . . . . . . . . . . . . . . . .
+LINC00115  . . . . . . . . . . . . . . . . . . . . .
+FAM41C     . . . . . . . . . . . . . . . . . . . . .
+AL645608.7 . . . . . . . . . . . . . . . . . . . . .
+AL645608.1 . . . . . . . . . . . . . . . . . . . . .
+<0 x 0 matrix>
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 262576
+Number of edges: 8602164
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9742
+Number of communities: 22
+Elapsed time: 152 seconds

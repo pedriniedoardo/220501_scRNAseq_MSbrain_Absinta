@@ -1,0 +1,109 @@
+ [1] "s43" "s57" "s53" "s39" "s49" "s60" "s9"  "s3"  "s1"  "s27" "s8"  "s23"
+      file index official_id
+1   s1.rds     1          s1
+2  s23.rds    13         s23
+3  s27.rds    16         s27
+4   s3.rds    17          s3
+5  s39.rds    20         s39
+6  s43.rds    24         s43
+7  s49.rds    30         s49
+8  s53.rds    33         s53
+9  s57.rds    36         s57
+10 s60.rds    38         s60
+11  s8.rds    42          s8
+12  s9.rds    43          s9
+[1] "s1.rds"
+[1] "s10.rds"
+[1] "s11.rds"
+[1] "s13.rds"
+[1] "s14.rds"
+[1] "s15.rds"
+[1] "s17.rds"
+[1] "s18.rds"
+[1] "s19.rds"
+[1] "s2.rds"
+[1] "s20.rds"
+[1] "s22.rds"
+[1] "s23.rds"
+[1] "s25.rds"
+[1] "s26.rds"
+[1] "s27.rds"
+[1] "s3.rds"
+[1] "s31.rds"
+[1] "s35.rds"
+[1] "s39.rds"
+[1] "s4.rds"
+[1] "s41.rds"
+[1] "s42.rds"
+[1] "s43.rds"
+[1] "s44.rds"
+[1] "s45.rds"
+[1] "s46.rds"
+[1] "s47.rds"
+[1] "s48.rds"
+[1] "s49.rds"
+[1] "s5.rds"
+[1] "s51.rds"
+[1] "s53.rds"
+[1] "s54.rds"
+[1] "s55.rds"
+[1] "s57.rds"
+[1] "s6.rds"
+[1] "s60.rds"
+[1] "s65.rds"
+[1] "s69.rds"
+[1] "s7.rds"
+[1] "s8.rds"
+[1] "s9.rds"
+[1] "s1.rds"
+[1] "s10.rds"
+[1] "s11.rds"
+[1] "s13.rds"
+[1] "s14.rds"
+[1] "s15.rds"
+[1] "s17.rds"
+[1] "s18.rds"
+[1] "s19.rds"
+[1] "s2.rds"
+[1] "s20.rds"
+[1] "s22.rds"
+[1] "s23.rds"
+[1] "s25.rds"
+[1] "s26.rds"
+[1] "s27.rds"
+[1] "s3.rds"
+[1] "s31.rds"
+[1] "s35.rds"
+[1] "s39.rds"
+[1] "s4.rds"
+[1] "s41.rds"
+[1] "s42.rds"
+[1] "s43.rds"
+[1] "s44.rds"
+[1] "s45.rds"
+[1] "s46.rds"
+[1] "s47.rds"
+[1] "s48.rds"
+[1] "s49.rds"
+[1] "s5.rds"
+[1] "s51.rds"
+[1] "s53.rds"
+[1] "s54.rds"
+[1] "s55.rds"
+[1] "s57.rds"
+[1] "s6.rds"
+[1] "s60.rds"
+[1] "s65.rds"
+[1] "s69.rds"
+[1] "s7.rds"
+[1] "s8.rds"
+[1] "s9.rds"
+Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+Number of nodes: 262576
+Number of edges: 9328345
+
+Running Louvain algorithm...
+Maximum modularity in 10 random starts: 0.9625
+Number of communities: 26
+Elapsed time: 179 seconds

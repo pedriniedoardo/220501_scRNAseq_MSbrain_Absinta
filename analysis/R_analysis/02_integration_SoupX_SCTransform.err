@@ -1,0 +1,1575 @@
+Loading required package: SingleCellExperiment
+Loading required package: SummarizedExperiment
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: 'MatrixGenerics'
+
+The following objects are masked from 'package:matrixStats':
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: 'BiocGenerics'
+
+The following objects are masked from 'package:stats':
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from 'package:base':
+
+    Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,
+    as.data.frame, basename, cbind, colnames, dirname, do.call,
+    duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,
+    lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,
+    pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,
+    tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+
+Attaching package: 'S4Vectors'
+
+The following objects are masked from 'package:base':
+
+    I, expand.grid, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: 'Biobase'
+
+The following object is masked from 'package:MatrixGenerics':
+
+    rowMedians
+
+The following objects are masked from 'package:matrixStats':
+
+    anyMissing, rowMedians
+
+Loading required package: scuttle
+Loading required package: ggplot2
+Warning messages:
+1: package 'SummarizedExperiment' was built under R version 4.2.2 
+2: package 'MatrixGenerics' was built under R version 4.2.2 
+3: package 'matrixStats' was built under R version 4.2.3 
+4: package 'GenomicRanges' was built under R version 4.2.2 
+The legacy packages maptools, rgdal, and rgeos, underpinning the sp package,
+which was just loaded, will retire in October 2023.
+Please refer to R-spatial evolution reports for details, especially
+https://r-spatial.org/r/2023/05/15/evolution4.html.
+It may be desirable to make the sf package available;
+package maintainers should consider adding sf to Suggests:.
+The sp package is now running under evolution status 2
+     (status 2 uses the sf package in place of rgdal)
+Attaching SeuratObject
+
+Attaching package: 'Seurat'
+
+The following object is masked from 'package:SummarizedExperiment':
+
+    Assays
+
+-- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+v dplyr     1.1.2     v readr     2.1.4
+v forcats   1.0.0     v stringr   1.5.0
+v lubridate 1.9.2     v tibble    3.2.1
+v purrr     1.0.1     v tidyr     1.3.0
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x lubridate::%within%() masks IRanges::%within%()
+x ggplot2::Position()   masks BiocGenerics::Position(), base::Position()
+x dplyr::collapse()     masks IRanges::collapse()
+x dplyr::combine()      masks Biobase::combine(), BiocGenerics::combine()
+x dplyr::count()        masks matrixStats::count()
+x dplyr::desc()         masks IRanges::desc()
+x tidyr::expand()       masks S4Vectors::expand()
+x dplyr::filter()       masks stats::filter()
+x dplyr::first()        masks S4Vectors::first()
+x dplyr::lag()          masks stats::lag()
+x purrr::reduce()       masks GenomicRanges::reduce(), IRanges::reduce()
+x dplyr::rename()       masks S4Vectors::rename()
+x lubridate::second()   masks S4Vectors::second()
+x lubridate::second<-() masks S4Vectors::second<-()
+x dplyr::slice()        masks IRanges::slice()
+i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+
+Attaching package: 'robustbase'
+
+The following object is masked from 'package:Biobase':
+
+    rowMedians
+
+The following objects are masked from 'package:MatrixGenerics':
+
+    colMedians, rowMedians
+
+The following objects are masked from 'package:matrixStats':
+
+    colMedians, rowMedians
+
+Rows: 20 Columns: 11
+-- Column specification --------------------------------------------------------
+Delimiter: ","
+chr (8): sample_id, official_id, facility, origin, patient, pathology, disea...
+dbl (3): age, PMI, year_of_extraction
+
+i Use `spec()` to retrieve the full column specification for this data.
+i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Finding all pairwise anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14970 anchors
+Filtering anchors
+	Retained 10735 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16206 anchors
+Filtering anchors
+	Retained 13392 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14203 anchors
+Filtering anchors
+	Retained 9836 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8294 anchors
+Filtering anchors
+	Retained 8009 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7474 anchors
+Filtering anchors
+	Retained 7031 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8612 anchors
+Filtering anchors
+	Retained 8368 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 9569 anchors
+Filtering anchors
+	Retained 5465 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12059 anchors
+Filtering anchors
+	Retained 6137 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 10729 anchors
+Filtering anchors
+	Retained 5508 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 5413 anchors
+Filtering anchors
+	Retained 3518 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14866 anchors
+Filtering anchors
+	Retained 10111 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18692 anchors
+Filtering anchors
+	Retained 10310 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15422 anchors
+Filtering anchors
+	Retained 9947 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7454 anchors
+Filtering anchors
+	Retained 5205 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14606 anchors
+Filtering anchors
+	Retained 6194 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14237 anchors
+Filtering anchors
+	Retained 12506 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12163 anchors
+Filtering anchors
+	Retained 9427 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14372 anchors
+Filtering anchors
+	Retained 12930 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7913 anchors
+Filtering anchors
+	Retained 7010 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8188 anchors
+Filtering anchors
+	Retained 5345 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12024 anchors
+Filtering anchors
+	Retained 9044 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7259 anchors
+Filtering anchors
+	Retained 6823 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7409 anchors
+Filtering anchors
+	Retained 6559 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7932 anchors
+Filtering anchors
+	Retained 7550 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 5256 anchors
+Filtering anchors
+	Retained 5047 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 5739 anchors
+Filtering anchors
+	Retained 4578 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7540 anchors
+Filtering anchors
+	Retained 6523 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7166 anchors
+Filtering anchors
+	Retained 6785 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19606 anchors
+Filtering anchors
+	Retained 13042 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21617 anchors
+Filtering anchors
+	Retained 11691 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20435 anchors
+Filtering anchors
+	Retained 13581 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8564 anchors
+Filtering anchors
+	Retained 5924 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15310 anchors
+Filtering anchors
+	Retained 6475 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 25086 anchors
+Filtering anchors
+	Retained 12046 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15266 anchors
+Filtering anchors
+	Retained 10021 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8102 anchors
+Filtering anchors
+	Retained 4820 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11613 anchors
+Filtering anchors
+	Retained 8543 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14243 anchors
+Filtering anchors
+	Retained 8925 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12062 anchors
+Filtering anchors
+	Retained 8359 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6135 anchors
+Filtering anchors
+	Retained 4823 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11968 anchors
+Filtering anchors
+	Retained 7813 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18028 anchors
+Filtering anchors
+	Retained 10726 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 9994 anchors
+Filtering anchors
+	Retained 7303 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6375 anchors
+Filtering anchors
+	Retained 4280 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20156 anchors
+Filtering anchors
+	Retained 12899 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14122 anchors
+Filtering anchors
+	Retained 11251 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14655 anchors
+Filtering anchors
+	Retained 10070 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13275 anchors
+Filtering anchors
+	Retained 10529 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7058 anchors
+Filtering anchors
+	Retained 5754 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11460 anchors
+Filtering anchors
+	Retained 7449 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16126 anchors
+Filtering anchors
+	Retained 10150 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11555 anchors
+Filtering anchors
+	Retained 9167 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6608 anchors
+Filtering anchors
+	Retained 4813 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21573 anchors
+Filtering anchors
+	Retained 15252 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15312 anchors
+Filtering anchors
+	Retained 10553 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15498 anchors
+Filtering anchors
+	Retained 11132 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15467 anchors
+Filtering anchors
+	Retained 9319 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20402 anchors
+Filtering anchors
+	Retained 14575 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8420 anchors
+Filtering anchors
+	Retained 6426 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11063 anchors
+Filtering anchors
+	Retained 4576 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16977 anchors
+Filtering anchors
+	Retained 9714 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13817 anchors
+Filtering anchors
+	Retained 10458 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7961 anchors
+Filtering anchors
+	Retained 5672 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19148 anchors
+Filtering anchors
+	Retained 12312 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12014 anchors
+Filtering anchors
+	Retained 6914 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12572 anchors
+Filtering anchors
+	Retained 8461 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19431 anchors
+Filtering anchors
+	Retained 13394 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19804 anchors
+Filtering anchors
+	Retained 11301 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 24300 anchors
+Filtering anchors
+	Retained 16082 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 9314 anchors
+Filtering anchors
+	Retained 6388 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13164 anchors
+Filtering anchors
+	Retained 5579 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20564 anchors
+Filtering anchors
+	Retained 10386 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16535 anchors
+Filtering anchors
+	Retained 11650 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8765 anchors
+Filtering anchors
+	Retained 5125 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 27925 anchors
+Filtering anchors
+	Retained 16715 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15186 anchors
+Filtering anchors
+	Retained 7993 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16358 anchors
+Filtering anchors
+	Retained 9948 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 28154 anchors
+Filtering anchors
+	Retained 16155 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12029 anchors
+Filtering anchors
+	Retained 5387 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18377 anchors
+Filtering anchors
+	Retained 6239 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18302 anchors
+Filtering anchors
+	Retained 5401 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6048 anchors
+Filtering anchors
+	Retained 2809 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 17337 anchors
+Filtering anchors
+	Retained 5843 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 25806 anchors
+Filtering anchors
+	Retained 7730 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11560 anchors
+Filtering anchors
+	Retained 4545 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7343 anchors
+Filtering anchors
+	Retained 2538 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 26095 anchors
+Filtering anchors
+	Retained 8954 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20277 anchors
+Filtering anchors
+	Retained 7374 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15005 anchors
+Filtering anchors
+	Retained 5905 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19630 anchors
+Filtering anchors
+	Retained 3995 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 23715 anchors
+Filtering anchors
+	Retained 7191 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12048 anchors
+Filtering anchors
+	Retained 6215 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16362 anchors
+Filtering anchors
+	Retained 6916 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15761 anchors
+Filtering anchors
+	Retained 6979 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6494 anchors
+Filtering anchors
+	Retained 3650 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18025 anchors
+Filtering anchors
+	Retained 8605 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 23042 anchors
+Filtering anchors
+	Retained 8584 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11016 anchors
+Filtering anchors
+	Retained 5498 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7090 anchors
+Filtering anchors
+	Retained 3158 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 26080 anchors
+Filtering anchors
+	Retained 11078 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20231 anchors
+Filtering anchors
+	Retained 8526 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15836 anchors
+Filtering anchors
+	Retained 7137 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 17263 anchors
+Filtering anchors
+	Retained 6348 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21638 anchors
+Filtering anchors
+	Retained 8897 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 36544 anchors
+Filtering anchors
+	Retained 10836 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3686 anchors
+Filtering anchors
+	Retained 2993 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3863 anchors
+Filtering anchors
+	Retained 3070 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3749 anchors
+Filtering anchors
+	Retained 3049 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3296 anchors
+Filtering anchors
+	Retained 2576 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3639 anchors
+Filtering anchors
+	Retained 2604 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3832 anchors
+Filtering anchors
+	Retained 2829 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3653 anchors
+Filtering anchors
+	Retained 2947 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3407 anchors
+Filtering anchors
+	Retained 2527 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3828 anchors
+Filtering anchors
+	Retained 3118 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3672 anchors
+Filtering anchors
+	Retained 2694 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3515 anchors
+Filtering anchors
+	Retained 2940 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3833 anchors
+Filtering anchors
+	Retained 3112 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3899 anchors
+Filtering anchors
+	Retained 3218 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3766 anchors
+Filtering anchors
+	Retained 2426 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3892 anchors
+Filtering anchors
+	Retained 2846 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15423 anchors
+Filtering anchors
+	Retained 9658 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19269 anchors
+Filtering anchors
+	Retained 10080 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19404 anchors
+Filtering anchors
+	Retained 9271 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7723 anchors
+Filtering anchors
+	Retained 4791 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 17361 anchors
+Filtering anchors
+	Retained 5919 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 23561 anchors
+Filtering anchors
+	Retained 10787 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13076 anchors
+Filtering anchors
+	Retained 7173 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 7675 anchors
+Filtering anchors
+	Retained 3904 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 25624 anchors
+Filtering anchors
+	Retained 12715 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 17620 anchors
+Filtering anchors
+	Retained 8715 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16685 anchors
+Filtering anchors
+	Retained 9346 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21273 anchors
+Filtering anchors
+	Retained 8893 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 24979 anchors
+Filtering anchors
+	Retained 11156 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 35529 anchors
+Filtering anchors
+	Retained 8736 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 29919 anchors
+Filtering anchors
+	Retained 11143 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3966 anchors
+Filtering anchors
+	Retained 676 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 10149 anchors
+Filtering anchors
+	Retained 7946 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11591 anchors
+Filtering anchors
+	Retained 8263 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 10294 anchors
+Filtering anchors
+	Retained 8043 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6129 anchors
+Filtering anchors
+	Retained 5048 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 10250 anchors
+Filtering anchors
+	Retained 7258 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13453 anchors
+Filtering anchors
+	Retained 9173 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 9015 anchors
+Filtering anchors
+	Retained 6974 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 6402 anchors
+Filtering anchors
+	Retained 4911 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14761 anchors
+Filtering anchors
+	Retained 10604 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12242 anchors
+Filtering anchors
+	Retained 8612 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11542 anchors
+Filtering anchors
+	Retained 8415 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 10974 anchors
+Filtering anchors
+	Retained 7683 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 12849 anchors
+Filtering anchors
+	Retained 9238 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13213 anchors
+Filtering anchors
+	Retained 8197 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15096 anchors
+Filtering anchors
+	Retained 10519 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3599 anchors
+Filtering anchors
+	Retained 1628 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14081 anchors
+Filtering anchors
+	Retained 9563 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19907 anchors
+Filtering anchors
+	Retained 12906 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21922 anchors
+Filtering anchors
+	Retained 12138 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20028 anchors
+Filtering anchors
+	Retained 12777 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8809 anchors
+Filtering anchors
+	Retained 5743 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14419 anchors
+Filtering anchors
+	Retained 6374 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22470 anchors
+Filtering anchors
+	Retained 11007 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 15046 anchors
+Filtering anchors
+	Retained 10168 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8386 anchors
+Filtering anchors
+	Retained 4901 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 29742 anchors
+Filtering anchors
+	Retained 16902 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 17067 anchors
+Filtering anchors
+	Retained 9034 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18399 anchors
+Filtering anchors
+	Retained 10907 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21262 anchors
+Filtering anchors
+	Retained 11439 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 30953 anchors
+Filtering anchors
+	Retained 18392 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 24403 anchors
+Filtering anchors
+	Retained 7719 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 21909 anchors
+Filtering anchors
+	Retained 10110 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3917 anchors
+Filtering anchors
+	Retained 874 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 25947 anchors
+Filtering anchors
+	Retained 13199 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14262 anchors
+Filtering anchors
+	Retained 8077 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 18545 anchors
+Filtering anchors
+	Retained 13096 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 17289 anchors
+Filtering anchors
+	Retained 9955 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22166 anchors
+Filtering anchors
+	Retained 14981 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8877 anchors
+Filtering anchors
+	Retained 6302 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13266 anchors
+Filtering anchors
+	Retained 5763 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 19039 anchors
+Filtering anchors
+	Retained 10055 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 16364 anchors
+Filtering anchors
+	Retained 11216 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 8131 anchors
+Filtering anchors
+	Retained 5037 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 23025 anchors
+Filtering anchors
+	Retained 14353 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 13692 anchors
+Filtering anchors
+	Retained 7716 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 14018 anchors
+Filtering anchors
+	Retained 9287 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 23341 anchors
+Filtering anchors
+	Retained 13810 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 29730 anchors
+Filtering anchors
+	Retained 18383 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 22880 anchors
+Filtering anchors
+	Retained 7490 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 20844 anchors
+Filtering anchors
+	Retained 9317 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 3871 anchors
+Filtering anchors
+	Retained 965 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 23885 anchors
+Filtering anchors
+	Retained 11334 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 11523 anchors
+Filtering anchors
+	Retained 6842 anchors
+Running CCA
+Merging objects
+Finding neighborhoods
+Finding anchors
+	Found 24648 anchors
+Filtering anchors
+	Retained 14361 anchors
+Warning message:
+In CheckDuplicateCellNames(object.list = object.list) :
+  Some cell names are duplicated across objects provided. Renaming to enforce unique cell names.
+Merging dataset 16 into 13
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 4 into 3
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 8 into 1
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 7 into 3 4
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 18 into 9
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 10 into 9 18
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 1 8 into 13 16
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 11 into 9 18 10
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 3 4 7 into 13 16 1 8
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 5 into 15
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 12 into 13 16 1 8 3 4 7
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 2 into 19
+Extracting anchors for merged samples
+Finding integration vectors
+Finding integration vector weights
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Integrating data
+Merging dataset 20 into 13 16 1 8 3 4 7 12
+Extracting anchors for merged samples
+Finding integration vectors
+/var/spool/slurmd/job2248294/slurm_script: line 20: 16043 Killed                  Rscript /home/pedrini.edoardo/scr/project_edoardo/220501_scRNAseq_MSbrain_Absinta/R_analysis/scr/02_integration_SCTransform_sbatch.R
+slurmstepd: error: Detected 1 oom-kill event(s) in step 2248294.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
