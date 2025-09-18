@@ -1,5 +1,5 @@
 # AIM ---------------------------------------------------------------------
-# enumerate the number of cells based on the threshold method for the custom signature provided by Aletta
+# enumerate the number of cells based on the threshold method for the custom signature provided by Eliana
 
 # libraries ---------------------------------------------------------------
 library(tidyverse)
