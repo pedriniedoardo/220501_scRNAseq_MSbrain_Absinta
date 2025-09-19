@@ -104,3 +104,11 @@ df_ms_vs_ctr %>%
 df_naive_vs_trt %>%
   filter(gene %in% GOI) %>%
   print(n = 45)
+
+# explore gender related genes --------------------------------------------
+# I have notived that there are some gender related genes in the list
+
+df_sig_custom %>%
+  filter(Genes %in% c("XIST") | str_detect(Genes,pattern = "Y$"))
+
+         
