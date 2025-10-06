@@ -21,7 +21,7 @@ library(UpSetR)
 
 # read in the data --------------------------------------------------------
 # read in the sample dataset
-data.combined <- readRDS("../../out/object/1145_VAS_subcluster_HarmonySample.rds")
+data.combined <- readRDS("../../out/object/130_VAS_subcluster_HarmonySample.rds")
 DimPlot(data.combined,raster = T,group.by = "RNA_snn_res.0.4",label = T)
 DimPlot(data.combined,raster = T,group.by = "RNA_snn_res.0.4",label = T)
 DimPlot(data.combined,raster = T,group.by = "RNA_snn_res.0.4",label = T,split.by = "origin")
