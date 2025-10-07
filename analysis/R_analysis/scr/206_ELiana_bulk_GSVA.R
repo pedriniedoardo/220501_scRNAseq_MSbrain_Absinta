@@ -221,6 +221,6 @@ hm <- Heatmap(mat_norm,
                 gp = gpar(fontsize = 12)
               ))
 
-pdf(file = "../../out/image/206_heatmap_GSVA_ZScore.pdf", width = 8, height = 5)
+pdf(file = "../../out/image/206_heatmap_GSVA_ZScore.pdf", width = 8, height = 4)
 draw(hm,heatmap_legend_side = "left",annotation_legend_side = "left",padding = unit(c(2, 2, 2, 80), "mm"))
 dev.off()
