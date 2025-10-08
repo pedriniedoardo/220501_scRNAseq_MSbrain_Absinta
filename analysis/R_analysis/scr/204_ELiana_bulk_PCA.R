@@ -304,7 +304,7 @@ p2_batch <- df_plot_PCA_batch %>%
   ggtitle("Stimuli")
 
 # plot the panel
-p1_batch + p2_batch + plot_annotation("No batch correction")
+p1_batch + p2_batch + plot_annotation("batch correction")
 ggsave("../../out/image/204_PCA_Eliana_Absinta_CellidSmall_batch.pdf",width = 14,height = 6)
 
 # explore more pcs trend --------------------------------------------------
@@ -444,7 +444,7 @@ p2_VAS_batch <- df_plot_PCA_VAS_batch %>%
   ggtitle("Stimuli")
 
 # plot the panel
-p1_VAS_batch + p2_VAS_batch + plot_annotation("No batch correction")
+p1_VAS_batch + p2_VAS_batch + plot_annotation("batch correction VAS genes")
 ggsave("../../out/image/204_PCA_Eliana_Absinta_CellidSmall_VAS_batch.pdf",width = 14,height = 6)
 
 # explore more pcs trend --------------------------------------------------

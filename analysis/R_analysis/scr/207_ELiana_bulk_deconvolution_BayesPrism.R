@@ -1,5 +1,6 @@
 # AIM ---------------------------------------------------------------------
 # test bulk deconvolution using BayesPrism
+# to make the computation faster, use the GEP approach rather thatn the count.matrix one
 
 # libraries ---------------------------------------------------------------
 library(Seurat)
@@ -8,7 +9,7 @@ library(tidyverse)
 
 # read in the data --------------------------------------------------------
 # read in the reference sc dataset
-seurat_ref <- readRDS("/mnt/SSD01/training/routines/scRNAseq/R/Seurat/out/object/100_ifnb_DonorStim.rds")
+seurat_ref <- readRDS("")
 
 # explore the metadata
 seurat_ref@meta.data
