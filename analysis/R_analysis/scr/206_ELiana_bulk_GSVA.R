@@ -9,6 +9,7 @@ library(tidyverse)
 library(GSVA)
 library(limma)
 library(ComplexHeatmap)
+library(DESeq2)
 # library(org.Hs.eg.db)
 library(AnnotationHub)
 library(AnnotationDbi)
@@ -25,10 +26,21 @@ dds_filter <- readRDS("../../out/object/202_dds_all_filter.rds") %>%
   DESeq()
 
 # extract the normalized table of counts
-exp <- counts(dds_filter,normalized = T) %>%
+exp_norm <- counts(dds_filter,normalized = T) %>%
   data.frame() %>%
   # dplyr::select(contains("BASELINE")|contains("Fe")|contains("myelin")) %>%
   as.matrix()
+
+# extract the raw table of counts
+exp_raw <- counts(dds_filter,normalized = F) %>%
+  data.frame() %>%
+  # dplyr::select(contains("BASELINE")|contains("Fe")|contains("myelin")) %>%
+  as.matrix()
+
+# try to load also the vst stabilized values to be used instead of the log transformed values to run GSVA
+exp_vst <- dds_filter %>%
+  vst(blind = T) %>%
+  assay()
 
 # build the signatures ----------------------------------------------------
 # define a panel of high confidence markers genes per cellid
@@ -59,11 +71,41 @@ pathways <- lapply(gene_sets,function(x){
 lengths(pathways)
 
 # run GSVA ----------------------------------------------------------------
+# check the distribution of the data
+
+# data are clearly right skewed. use the poisson parameter
+exp_norm %>% 
+  data.frame() %>%
+  rownames_to_column("gene") %>%
+  pivot_longer(names_to = "sample",values_to = "exp",-gene) %>%
+  ggplot(aes(x=exp)) + geom_histogram() + theme_bw()
+
+# data are clearly right skewed. use the poisson parameter
+exp_raw %>% 
+  data.frame() %>%
+  rownames_to_column("gene") %>%
+  pivot_longer(names_to = "sample",values_to = "exp",-gene) %>%
+  ggplot(aes(x=exp)) + geom_histogram() + theme_bw()
+
+# this can be used with the gaussian parameter
+log(exp_norm+1) %>%
+  data.frame() %>%
+  rownames_to_column("gene") %>%
+  pivot_longer(names_to = "sample",values_to = "exp",-gene) %>%
+  ggplot(aes(x=exp)) + geom_histogram() + theme_bw()
+
+# this can be used with the gaussian parameter
+exp_vst %>%
+  data.frame() %>%
+  rownames_to_column("gene") %>%
+  pivot_longer(names_to = "sample",values_to = "exp",-gene) %>%
+  ggplot(aes(x=exp)) + geom_histogram() + theme_bw()
+
 # set.seed for reproducibility
 set.seed(123)
 
 # perform the GSEA based on the normalized counts
-es <- gsva(exp,
+es_norm <- gsva(exp_norm,
            pathways,
            min.sz=2,
            # max.sz=500,
@@ -72,7 +114,18 @@ es <- gsva(exp,
            verbose=FALSE,
            parallel.sz=1)
 
-es_log <- gsva(log(exp+1),
+# perform the GSEA based on the raw counts
+es_raw <- gsva(exp_raw,
+                pathways,
+                min.sz=2,
+                # max.sz=500,
+                kcdf="Poisson",
+                mx.diff=TRUE,
+                verbose=FALSE,
+                parallel.sz=1)
+
+# perform the GSEA based on the normalized log transformed counts
+es_log <- gsva(log(exp_norm+1),
                pathways,
                min.sz=2,
                # max.sz=500,
@@ -81,17 +134,41 @@ es_log <- gsva(log(exp+1),
                verbose=FALSE,
                parallel.sz=1)
 
-# show correlation between the two estimates ------------------------------
-left_join(
-  es %>%
-    data.frame() %>%
-    rownames_to_column("pathway") %>%
-    pivot_longer(names_to = "sample",values_to = "estimate",-pathway),
-  es_log %>%
-    data.frame() %>%
-    rownames_to_column("pathway") %>%
-    pivot_longer(names_to = "sample",values_to = "estimate_log",-pathway),by = c("pathway","sample")) %>%
-  ggplot(aes(x=estimate_log,y=estimate))+geom_point()
+# perform the GSEA based on the vst stabilized counts
+es_vst <- gsva(exp_vst,
+               pathways,
+               min.sz=2,
+               # max.sz=500,
+               kcdf="Gaussian",
+               mx.diff=TRUE,
+               verbose=FALSE,
+               parallel.sz=1)
+
+# show correlation between the estimates ----------------------------------
+# put all the results in a list
+list_es <- list("norm" = es_norm %>%
+       data.frame() %>%
+       rownames_to_column("pathway") %>%
+       pivot_longer(names_to = "sample",values_to = "estimate.norm",-pathway),
+     "raw" = es_raw %>%
+       data.frame() %>%
+       rownames_to_column("pathway") %>%
+       pivot_longer(names_to = "sample",values_to = "estimate.raw",-pathway),
+     "log_norm" = es_log %>%
+       data.frame() %>%
+       rownames_to_column("pathway") %>%
+       pivot_longer(names_to = "sample",values_to = "estimate.logNorm",-pathway),
+     "vst" = es_vst %>%
+       data.frame() %>%
+       rownames_to_column("pathway") %>%
+       pivot_longer(names_to = "sample",values_to = "estimate.vst",-pathway)
+     )
+
+# reduce by left join
+df_es <- purrr::reduce(list_es,left_join,by = c("pathway","sample"))
+
+# check the cross-correlation fo all the results
+GGally::ggpairs(df_es[,3:6]) + theme_bw()
 
 # # STATISTICAL TESTING -----------------------------------------------------
 # # run the analysis only on the logged normalized values
@@ -174,12 +251,12 @@ left_join(
 
 # define the matrix for the heatmap
 # in this case scale by sample to show what is the highest score across the different signatures
-mat_norm <- es %>%
+mat_norm <- es_norm %>%
   data.frame() %>%
   rownames_to_column() %>%
   # plot only the significant terms
   # filter(rowname %in% DEgeneSets) %>%
-  # scale the values rowwise
+  # scale the values column-wise
   gather(key = sample,value = exp,-rowname) %>%
   # group_by(rowname) %>%
   group_by(sample) %>%
@@ -221,6 +298,62 @@ hm <- Heatmap(mat_norm,
                 gp = gpar(fontsize = 12)
               ))
 
-pdf(file = "../../out/image/206_heatmap_GSVA_ZScore.pdf", width = 8, height = 4)
+pdf(file = "../../out/image/206_heatmap_GSVA_ZScore_norm.pdf", width = 8, height = 4)
 draw(hm,heatmap_legend_side = "left",annotation_legend_side = "left",padding = unit(c(2, 2, 2, 80), "mm"))
 dev.off()
+
+# try to use the value from GSVA using logged expression values
+# in this case scale by sample to show what is the highest score across the different signatures
+mat_log <- es_log %>%
+  data.frame() %>%
+  rownames_to_column() %>%
+  # plot only the significant terms
+  # filter(rowname %in% DEgeneSets) %>%
+  # scale the values column-wise
+  gather(key = sample,value = exp,-rowname) %>%
+  # group_by(rowname) %>%
+  group_by(sample) %>%
+  mutate(norm = (exp - mean(exp))/sd(exp)) %>%
+  dplyr::select(-exp) %>%
+  spread(key = sample,value = norm) %>%
+  # spread(key = rowname,value = norm) %>%
+  column_to_rownames()
+# column_to_rownames("sample")
+
+# confirm the scaling direction
+# apply(mat_norm,MARGIN = 1,sum)
+# apply(mat_norm,MARGIN = 1,sd)
+
+apply(mat_log,MARGIN = 2,sum)
+apply(mat_log,MARGIN = 2,sd)
+
+hm_log <- Heatmap(mat_log,
+              show_row_names = T,
+              # add annotation for the columns
+              # hide columns labels
+              # show_column_names = F,
+              # fix width of the lables
+              top_annotation = column_ha,
+              # row_names_gp = gpar(col = rowname_color),
+              row_names_max_width = max_text_width(
+                rownames(mat_log),
+                gp = gpar(fontsize = 12)
+              ))
+
+pdf(file = "../../out/image/206_heatmap_GSVA_ZScore_log.pdf", width = 8, height = 4)
+draw(hm_log,heatmap_legend_side = "left",annotation_legend_side = "left",padding = unit(c(2, 2, 2, 80), "mm"))
+dev.off()
+
+# plot also the unscaled GSVA
+# Heatmap(es_log,
+#         show_row_names = T,
+#         # add annotation for the columns
+#         # hide columns labels
+#         # show_column_names = F,
+#         # fix width of the lables
+#         # top_annotation = column_ha,
+#         # row_names_gp = gpar(col = rowname_color),
+#         row_names_max_width = max_text_width(
+#           rownames(es_log),
+#           gp = gpar(fontsize = 12)
+#         ))
