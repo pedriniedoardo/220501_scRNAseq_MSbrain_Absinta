@@ -156,6 +156,7 @@ FeaturePlot(data.combined,features = GOI,raster = T,order = T)
 
 # try nebulosa option
 plot_density(data.combined, GOI,reduction = "umap")
+ggsave("../../out/image/00_density_plot_CHIT1_TSPO_Abisnta2021_IMM.pdf",width = 8,height = 3)
 
 df_tot %>%
   # filter(NMDA_time%in%c("NMDA_00","NMDA_03","NMDA_06","NMDA_12","NMDA_24")) %>%
@@ -330,6 +331,10 @@ df_avg |>
 # try to check a general correlation across all the averaged samples
 df_avg_wide <- df_avg %>%
   pivot_wider(names_from = gene,values_from = avg_exp)
+
+# save the expression pairs values per subcluster
+df_avg_wide %>%
+  write_tsv("../../out/table/00_df_avg_wide_TSPO_CHIT1_Abisnta2021_IMM.tsv")
 
 df_avg_wide %>%
   ggplot(aes(x=CHIT1,y=TSPO)) +

@@ -154,6 +154,30 @@
       "Repository": "CRAN",
       "Hash": "68122010f01c4dcfbe58ce7112f2433d"
     },
+    "BayesPrism": {
+      "Package": "BayesPrism",
+      "Version": "2.2.2",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "Danko-Lab",
+      "RemoteRepo": "BayesPrism",
+      "RemoteSubdir": "BayesPrism",
+      "RemoteRef": "main",
+      "RemoteSha": "1b693a9660ee4e1cd615c37c72f12ac4ec6dd496",
+      "Requirements": [
+        "BiocParallel",
+        "Matrix",
+        "NMF",
+        "R",
+        "gplots",
+        "scran",
+        "snowfall",
+        "stats",
+        "utils"
+      ],
+      "Hash": "a29452a3253818ed1eaa0a454ee1ffc7"
+    },
     "Biobase": {
       "Package": "Biobase",
       "Version": "2.58.0",
@@ -1106,6 +1130,13 @@
         "stats"
       ],
       "Hash": "543fd79acadda05d7540261c8206f1a6"
+    },
+    "PoiClaClu": {
+      "Package": "PoiClaClu",
+      "Version": "1.0.2.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c073dec69fa32ac4ad4666c7e3f00411"
     },
     "ProtGenerics": {
       "Package": "ProtGenerics",
@@ -2066,6 +2097,28 @@
         "vctrs"
       ],
       "Hash": "40415719b5a479b87949f3aa0aee737c"
+    },
+    "bluster": {
+      "Package": "bluster",
+      "Version": "1.8.0",
+      "Source": "Bioconductor",
+      "git_url": "https://git.bioconductor.org/packages/bluster",
+      "git_branch": "RELEASE_3_16",
+      "git_last_commit": "156115c",
+      "git_last_commit_date": "2022-11-01",
+      "Requirements": [
+        "BiocNeighbors",
+        "BiocParallel",
+        "Matrix",
+        "Rcpp",
+        "S4Vectors",
+        "cluster",
+        "igraph",
+        "methods",
+        "stats",
+        "utils"
+      ],
+      "Hash": "5c698967bd2dda8f96e33333c28170e1"
     },
     "boot": {
       "Package": "boot",
@@ -3960,6 +4013,23 @@
       ],
       "Hash": "24b224366f9c2e7534d2344d10d59211"
     },
+    "hexbin": {
+      "Package": "hexbin",
+      "Version": "1.28.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "grDevices",
+        "graphics",
+        "grid",
+        "lattice",
+        "methods",
+        "stats",
+        "utils"
+      ],
+      "Hash": "10a44851f04ff2d0e26b1c84c38d914a"
+    },
     "highr": {
       "Package": "highr",
       "Version": "0.10",
@@ -4551,6 +4621,19 @@
         "rlang"
       ],
       "Hash": "e2817ccf4a065c5d9d7f2cfbe7c1d78c"
+    },
+    "metapod": {
+      "Package": "metapod",
+      "Version": "1.6.0",
+      "Source": "Bioconductor",
+      "git_url": "https://git.bioconductor.org/packages/metapod",
+      "git_branch": "RELEASE_3_16",
+      "git_last_commit": "cfeaa95",
+      "git_last_commit_date": "2022-11-01",
+      "Requirements": [
+        "Rcpp"
+      ],
+      "Hash": "11e50591534d0c37308c8ddb56bf0ae0"
     },
     "mgcv": {
       "Package": "mgcv",
@@ -5858,6 +5941,41 @@
       ],
       "Hash": "1799c8a7d51b7acc81e3eed8bd6c922b"
     },
+    "scran": {
+      "Package": "scran",
+      "Version": "1.26.2",
+      "Source": "Bioconductor",
+      "git_url": "https://git.bioconductor.org/packages/scran",
+      "git_branch": "RELEASE_3_16",
+      "git_last_commit": "0cdaef6",
+      "git_last_commit_date": "2023-01-19",
+      "Requirements": [
+        "BH",
+        "BiocGenerics",
+        "BiocParallel",
+        "BiocSingular",
+        "DelayedArray",
+        "DelayedMatrixStats",
+        "Matrix",
+        "Rcpp",
+        "S4Vectors",
+        "SingleCellExperiment",
+        "SummarizedExperiment",
+        "beachmat",
+        "bluster",
+        "dqrng",
+        "edgeR",
+        "igraph",
+        "limma",
+        "metapod",
+        "methods",
+        "scuttle",
+        "statmod",
+        "stats",
+        "utils"
+      ],
+      "Hash": "ab708ab1be42d035e6d8ef12b13ec4c9"
+    },
     "sctransform": {
       "Package": "sctransform",
       "Version": "0.3.5",
@@ -6053,6 +6171,17 @@
         "utils"
       ],
       "Hash": "40b74690debd20c57d93d8c246b305d4"
+    },
+    "snowfall": {
+      "Package": "snowfall",
+      "Version": "1.84-6.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "snow"
+      ],
+      "Hash": "0b607c6c2bcd70d6f27e2d7a8bdc9da0"
     },
     "sourcetools": {
       "Package": "sourcetools",
