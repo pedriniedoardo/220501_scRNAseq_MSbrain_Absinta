@@ -367,6 +367,59 @@ sobj_total_h.markers %>%
   filter(str_detect(gene,pattern = "^HB[^(P)]",negate=T)) %>%
   write_tsv("../../out/table/130_FindAllMarkers_HarmonySample_res0.1_VAS_subcluster_top100_noRIBOandMT.tsv")
 
+# -------------------------------------------------------------------------
+# use res0.4 for markers
+DefaultAssay(data.combined) <- "RNA"
+Idents(data.combined) <- "RNA_snn_res.0.4"
+
+(DimPlot(data.combined,group.by = "RNA_snn_res.0.4") + ggtitle("Harmony Sample"))
+(DimPlot(data.combined,group.by = "RNA_snn_res.0.4") + ggtitle("Harmony Sample"))
+
+# find markers for every cluster compared to all remaining cells, report only the positive
+# ones
+sobj_total_h.markers2 <- RunPrestoAll(data.combined, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+
+# save the table of all markers
+sobj_total_h.markers2 %>%
+  write_tsv("../../out/table/130_FindAllMarkers_HarmonySample_res0.4_VAS_subcluster.tsv")
+
+# pick the top 100 markers per cluster
+sobj_total_h.markers2 %>%
+  group_by(cluster) %>%
+  dplyr::slice(1:100) %>%
+  write_tsv("../../out/table/130_FindAllMarkers_HarmonySample_res0.4_VAS_subcluster_top100.tsv")
+
+sobj_total_h.markers2 %>%
+  filter(cluster %in% c(4)) %>%
+  dplyr::slice(1:100) %>%
+  pull(gene)
+
+sobj_total_h.markers2 %>%
+  group_by(cluster) %>%
+  dplyr::slice(1:100) %>%
+  filter(str_detect(gene,pattern = "^MT-",negate=T)) %>%
+  filter(str_detect(gene,pattern = "^RP[SL][[:digit:]]|^RPLP[[:digit:]]|^RPSA",negate=T)) %>%
+  filter(str_detect(gene,pattern = "^HB[^(P)]",negate=T)) %>%
+  write_tsv("../../out/table/130_FindAllMarkers_HarmonySample_res0.4_VAS_subcluster_top100_noRIBOandMT.tsv")
+
+
+sobj_total_h.markers2 %>%
+  filter(cluster %in% c(4)) %>%
+  filter(str_detect(gene,pattern = "^MT-",negate=T)) %>%
+  filter(str_detect(gene,pattern = "^RP[SL][[:digit:]]|^RPLP[[:digit:]]|^RPSA",negate=T)) %>%
+  filter(str_detect(gene,pattern = "^HB[^(P)]",negate=T)) %>%
+  pull(gene)
+
+sobj_total_h.markers2 %>%
+  filter(cluster %in% c(4)) %>%
+  filter(gene %in% c("ID1"))
+
+DotPlot(data.combined,features = c("ID1","LMO2","PECAM1","CLDN5"))
+
+# -------------------------------------------------------------------------
+
+
+
 # try plotting the top markers
 top_specific_markers <- sobj_total_h.markers %>%
   # filter ribosomal and mt genes
