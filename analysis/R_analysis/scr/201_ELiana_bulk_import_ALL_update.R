@@ -1,5 +1,6 @@
 # AIM ---------------------------------------------------------------------
-# import the raw data shared by Eliana, relative to her bulk dataset
+# import the correct raw data shared by Eliana, relative to her bulk dataset
+# this is the matrix provided by luca lambroia
 # this is the analysis for the MS vs CTRL samples
 # this is the updata version of the analysis
 
@@ -9,8 +10,12 @@ library("DESeq2")
 
 # read in the expression data ---------------------------------------------
 # read in the raw table of counts
-raw_counts <- readRDS("../../data/eliana_bulkRNAseq/eliana_mat.rds")
+raw_counts <- readRDS("../../data/eliana_bulkRNAseq/raw_counts_update.rds")
 head(raw_counts)
+
+# fix the name of the samples
+new_colnames <- paste0("RNA_",colnames(raw_counts) %>% str_extract(pattern = "MRA[_,-]\\d+"))
+colnames(raw_counts) <- new_colnames
 
 # metadata ----------------------------------------------------------------
 # load the updated metadata. according to Eliana they have removed sample MS_96 and kept sample CTR_33 but they switched the gender

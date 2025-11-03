@@ -36,7 +36,8 @@ lut <- colData(data) %>%
   # mutate(sample = str_replace_all(HUGE.ID,pattern = "-","."))
 
 # GOI <- c(sig_B$symbol,sig_D$symbol)
-GOI <- c("SERPINA1","PROX1","PODXL","IGFBP4")
+# GOI <- c("SERPINA1","PROX1","PODXL","IGFBP4")
+GOI <- c("IL1B","HGF","LIF","ICAM1","PIM1" )
 
 # GOI <- subset_genes
 # are all the GOI in the table
@@ -91,7 +92,7 @@ counts(data,normalized=T)%>%
 # plot full panel of marker genes -----------------------------------------
 # plot the full panel of marker genes.
 # load the full vst transformed values of expression. use the indiltered values
-vst <- readRDS(file = "../../out/object/vds_all_unfilter_update.rds")
+vst <- readRDS(file = "../../out/object/vds_all_filter_update.rds")
 
 # pull the matrix of expresison
 mat_filter <- assay(vst) %>%
@@ -104,6 +105,7 @@ setdiff(test_DEGS$gene,rownames(vst))
 GOI <- test_DEGS$gene[!test_DEGS$gene %in% c("UTS2","KRTAP2-3","IL2RA")]
 
 # subset the DEGs only
+# GOI <- c("IL1B","HGF","LIF","ICAM1","PIM1" )
 mat <- mat_filter[GOI, ]
 
 # z-scale the matrix
