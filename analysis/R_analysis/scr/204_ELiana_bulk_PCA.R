@@ -71,7 +71,8 @@ dim(counts_CellidSmall)
 # gc()
 
 # read in the expresson data from Eliana bulk rnaseq data from ECFC cells
-dds <- readRDS(file = "../../out/object/201_dds_all.rds")
+# dds <- readRDS(file = "../../out/object/201_dds_all.rds")
+dds <- readRDS(file = "../../out/object/201_dds_all_update.rds")
 count_ecfc <- counts(dds)
 meta_ecfc <- colData(dds) %>%
   data.frame()
@@ -101,7 +102,7 @@ meta_CellidSmall_short <- data.frame(sample = colnames(counts_CellidSmall) %>% u
 
 # metadata fro the bulk ecfc dataset
 meta_ecfc_short <- meta_ecfc %>%
-  select(sample = HUGE.ID,Group) %>%
+  dplyr::select(sample = HUGE.ID,Group) %>%
   mutate(batch = "Eliana") %>%
   remove_rownames() %>%
   mutate(rowname = str_replace_all(sample,pattern = "-","\\.")) %>%
@@ -115,7 +116,6 @@ colData_full_CellidSmall <- bind_rows(meta_CellidSmall_short,meta_ecfc_short) %>
 # save the metadata and the full matrix
 saveRDS(counts_full_CellidSmall,"../../out/object/204_count_Eliana_Absinta_CellidSmall.rds")
 saveRDS(colData_full_CellidSmall,"../../out/object/204_meta_Eliana_Absinta_CellidSmall.rds")
-
 
 # bulkd the DESeq2 object -------------------------------------------------
 # build the model, I am not really using it.

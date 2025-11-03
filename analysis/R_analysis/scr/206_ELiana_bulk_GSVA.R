@@ -22,8 +22,9 @@ scobj <- readRDS("../../out/object/revision/120_WMCX_ManualClean4_harmonySkipInt
 DimPlot(scobj,raster = T,group.by = "expertAnno.l1",label = T)
 
 # read Eliana's bulk data
-dds_filter <- readRDS("../../out/object/202_dds_all_filter.rds") %>%
-  DESeq()
+# dds_filter <- readRDS("../../out/object/202_dds_all_filter.rds") %>%
+#   DESeq()
+dds_filter <- readRDS("../../out/object/202_dds_filter_all_UPDATE_DESeq.rds")
 
 # extract the normalized table of counts
 exp_norm <- counts(dds_filter,normalized = T) %>%

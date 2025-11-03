@@ -8,6 +8,7 @@ library(ComplexHeatmap)
 library(circlize)
 library(cowplot)
 library(DESeq2)
+library(cowplot)
 
 # read in the data --------------------------------------------------------
 # read in the sample seurat object
@@ -112,7 +113,9 @@ ggsave("../../out/image/209_heatmap_scale_between_genes_sc.pdf",width = 14,heigh
 
 # do the same on the bulk data from Eliana --------------------------------
 # read Eliana's bulk data red the input before filtering low expressed genes
-dds <- readRDS("../../out/object/201_dds_all.rds") %>%
+# dds <- readRDS("../../out/object/201_dds_all.rds") %>%
+#   DESeq()
+dds <- readRDS("../../out/object/201_dds_all_update.rds") %>%
   DESeq()
 
 # extract the normalized table of counts

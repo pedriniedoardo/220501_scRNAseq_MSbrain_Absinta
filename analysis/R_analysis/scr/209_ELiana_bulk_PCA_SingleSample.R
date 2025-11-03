@@ -72,7 +72,9 @@ dim(counts_CellidSmall)
 # gc()
 
 # read in the expresson data from Eliana bulk rnaseq data from ECFC cells
-dds <- readRDS(file = "../../out/object/201_dds_all.rds")
+# dds <- readRDS(file = "../../out/object/201_dds_all.rds")
+dds <- readRDS(file = "../../out/object/201_dds_all_update.rds")
+
 count_ecfc_all <- counts(dds)
 meta_ecfc_all <- colData(dds) %>%
   data.frame()
@@ -115,7 +117,7 @@ meta_CellidSmall_short <- data.frame(sample = colnames(counts_CellidSmall) %>% u
 
 # metadata fro the bulk ecfc dataset
 meta_ecfc_short <- meta_ecfc %>%
-  select(sample,Group) %>%
+  dplyr::select(sample,Group) %>%
   mutate(batch = "Eliana") %>%
   remove_rownames() %>%
   mutate(rowname = str_replace_all(sample,pattern = "-","\\.")) %>%
@@ -198,7 +200,7 @@ hm@matrix
 mat_dist_ECFC <- hm@matrix %>%
   as.data.frame() %>%
   rownames_to_column("ID") %>%
-  select(ID,ECFC) %>%
+  dplyr::select(ID,ECFC) %>%
   filter(ID != "ECFC") %>%
   column_to_rownames("ID") 
 

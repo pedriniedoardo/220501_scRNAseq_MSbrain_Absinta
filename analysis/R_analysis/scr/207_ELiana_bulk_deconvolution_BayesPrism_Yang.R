@@ -14,7 +14,8 @@ ref_GEP <- readRDS("../../data/HuVascAD.ALL.GEP.cellid.rds")
 
 # read in the sample bulk test data. 
 # we need at least two samples
-dds <- readRDS(file = "../../out/object/201_dds_all.rds")
+# dds <- readRDS(file = "../../out/object/201_dds_all.rds")
+dds <- readRDS("../../out/object/201_dds_all_update.rds")
 bulk_counts <- counts(dds, normalized = F)
 
 # Check the dimensions of our simulated data
