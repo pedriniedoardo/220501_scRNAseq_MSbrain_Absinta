@@ -122,13 +122,17 @@ test_df2 <- test2 |>
   dplyr::select(name,PC1:PC9) |>
   pivot_longer(names_to = "var_2",values_to = "value_2",-c(name))
 
+
+# martina asked to label the sample RNA_MRA_04
 left_join(test_df1,test_df2,by=c("name")) |> 
   mutate(comparison = paste0(var_1,"_vs_",var_2)) |> 
+  mutate(test = case_when(name %in% c("RNA_MRA_04")~"RNA_MRA_04",
+                          T ~ "other")) |>
   ggplot(aes(x=value_1,y=value_2)) +
   facet_wrap(~comparison,scales = "free",ncol=9) +
   # facet_grid(var_1~var_2,scales = "free_x",drop = T) +
   geom_boxplot(outlier.shape = NA)+
-  geom_point(position = position_jitter(width = 0.2))+
+  geom_point(position = position_jitter(width = 0.2),aes(col=test))+
   theme_bw()+theme(strip.background = element_blank(),axis.text.x = element_text(hjust = 1,angle = 45))
 ggsave("../../out/image/202_panel_metadata_PC.pdf",width = 20,height = 8)
 
