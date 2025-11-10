@@ -197,4 +197,3 @@ ht2 <- Heatmap(mat2,
 pdf("../../out/image/202_heatmap_GOI_gender.pdf",width = 8,height = 5) 
 draw(ht2,heatmap_legend_side = "left",annotation_legend_side = "left") 
 dev.off()
-

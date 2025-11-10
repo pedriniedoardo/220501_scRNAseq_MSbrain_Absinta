@@ -35,7 +35,7 @@ saveRDS(ddsHTSeq_filter,"../../out/object/202_dds_filter_all_UPDATE_DESeq.rds")
 # print the contrast
 resultsNames(ddsHTSeq_filter)
 
- # save the resut of the contrast of interest. notice that is also possible to set the alpha value for the significance (adj-p value)
+# save the resut of the contrast of interest. notice that is also possible to set the alpha value for the significance (adj-p value)
 contrast <- makeContrasts(MS_vs_CTRL = diseaseMS,
                           levels = design)
 

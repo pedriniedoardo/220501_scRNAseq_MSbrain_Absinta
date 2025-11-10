@@ -196,7 +196,7 @@ df_tables_GSEA_rankLogFC <- read_tsv(paste0("../../out/table/202_df_table_GSEA_R
 
 # join the two tables
 test <- df_tables_GSEA_rankPvalue %>%
-  left_join(df_tables_GSEA_rankLogFC,by = c("dataset","pathway"),suffix = c(".pvalue",".logfc")) %>%
+  full_join(df_tables_GSEA_rankLogFC,by = c("dataset","pathway"),suffix = c(".pvalue",".logfc")) %>%
   # add more annotations to the dataset
   left_join(geneset_summary,by = c("pathway" = "gs_name"))
 
@@ -208,25 +208,25 @@ test %>%
 list_plot <- lapply(c("res_MS_shr"),function(dat){
   global_min <- min(-log(c(test %>%
                              filter(dataset == dat) %>%
-                             slice_max(abs(NES.logfc),n = 20) %>%
+                             slice_max(abs(NES.logfc),n = 30) %>%
                              pull(padj.logfc),
                            test %>%
                              filter(dataset == dat) %>%
-                             slice_max(abs(NES.pvalue),n = 20) %>%
-                             pull(padj.pvalue))))
+                             slice_max(abs(NES.pvalue),n = 30) %>%
+                             pull(padj.pvalue))),na.rm = T)
   global_max <- max(-log(c(test %>%
                              filter(dataset == dat) %>%
-                             slice_max(abs(NES.logfc),n = 20) %>%
+                             slice_max(abs(NES.logfc),n = 30) %>%
                              pull(padj.logfc),
                            test %>%
                              filter(dataset == dat) %>%
-                             slice_max(abs(NES.pvalue),n = 20) %>%
-                             pull(padj.pvalue))))
+                             slice_max(abs(NES.pvalue),n = 30) %>%
+                             pull(padj.pvalue))),na.rm = T)
   
   
   p1 <- test %>%
     filter(dataset == dat) %>%
-    slice_max(abs(NES.pvalue),n = 20) %>%
+    slice_max(abs(NES.pvalue),n = 30) %>%
     mutate(Term = str_remove_all(pathway,pattern = "REACTOME_") %>% str_sub(start = 1,end = 50)) %>%
     mutate(Term = fct_reorder(Term, NES.pvalue,.desc = F)) %>%
     mutate(direction = factor(sign(NES.pvalue),labels = c(1,-1),levels = c(1,-1))) %>%
@@ -241,7 +241,7 @@ list_plot <- lapply(c("res_MS_shr"),function(dat){
   
   p2 <- test %>%
     filter(dataset == dat) %>%
-    slice_max(abs(NES.logfc),n = 20) %>%
+    slice_max(abs(NES.logfc),n = 30) %>%
     mutate(Term = str_remove_all(pathway,pattern = "REACTOME_") %>% str_sub(start = 1,end = 50)) %>%
     mutate(Term = fct_reorder(Term, NES.logfc,.desc = F)) %>%
     mutate(direction = factor(sign(NES.logfc),labels = c(1,-1),levels = c(1,-1))) %>%
@@ -259,7 +259,7 @@ list_plot <- lapply(c("res_MS_shr"),function(dat){
 })
 
 wrap_plots(list_plot)
-ggsave("../../out/image/202_GSEA_top20_REACTOME_MS.pdf",width = 12,height = 10)
+ggsave("../../out/image/202_GSEA_top20_REACTOME_MS.pdf",width = 12,height = 12)
 
 # non rudundant -----------------------------------------------------------
 #
@@ -271,7 +271,7 @@ df_tables_GSEA_rankLogFC2 <- read_tsv(paste0("../../out/table/202_df_table_GSEA_
 
 # join the two tables
 test2 <- df_tables_GSEA_rankPvalue2 %>%
-  left_join(df_tables_GSEA_rankLogFC2,by = c("dataset","pathway"),suffix = c(".pvalue",".logfc")) %>%
+  full_join(df_tables_GSEA_rankLogFC2,by = c("dataset","pathway"),suffix = c(".pvalue",".logfc")) %>%
   # add more annotations to the dataset
   left_join(geneset_summary,by = c("pathway" = "gs_name"))
 
@@ -279,29 +279,30 @@ test2 <- df_tables_GSEA_rankPvalue2 %>%
 test2 %>%  
   ggplot(aes(x=NES.pvalue, y = NES.logfc)) + geom_point(shape = 1,alpha = 0.2) + theme_bw()
 
-# plot the top 20 for Fe an Myelin
+# plot the top 20 term per ranking
+# dat <- "res_MS_shr"
 list_plot2 <- lapply(c("res_MS_shr"),function(dat){
   global_min <- min(-log(c(test2 %>%
                              filter(dataset == dat) %>%
-                             slice_max(abs(NES.logfc),n = 20) %>%
+                             slice_max(abs(NES.logfc),n = 30) %>%
                              pull(padj.logfc),
                            test2 %>%
                              filter(dataset == dat) %>%
-                             slice_max(abs(NES.pvalue),n = 20) %>%
-                             pull(padj.pvalue))))
+                             slice_max(abs(NES.pvalue),n = 30) %>%
+                             pull(padj.pvalue))),na.rm = T)
   global_max <- max(-log(c(test2 %>%
                              filter(dataset == dat) %>%
-                             slice_max(abs(NES.logfc),n = 20) %>%
+                             slice_max(abs(NES.logfc),n = 30) %>%
                              pull(padj.logfc),
                            test2 %>%
                              filter(dataset == dat) %>%
-                             slice_max(abs(NES.pvalue),n = 20) %>%
-                             pull(padj.pvalue))))
+                             slice_max(abs(NES.pvalue),n = 30) %>%
+                             pull(padj.pvalue))),na.rm = T)
   
   
   p1 <- test2 %>%
     filter(dataset == dat) %>%
-    slice_max(abs(NES.pvalue),n = 20) %>%
+    slice_max(abs(NES.pvalue),n = 30,na_rm = T) %>%
     mutate(Term = str_remove_all(pathway,pattern = "REACTOME_") %>% str_sub(start = 1,end = 50)) %>%
     mutate(Term = fct_reorder(Term, NES.pvalue,.desc = F)) %>%
     mutate(direction = factor(sign(NES.pvalue),labels = c(1,-1),levels = c(1,-1))) %>%
@@ -316,7 +317,7 @@ list_plot2 <- lapply(c("res_MS_shr"),function(dat){
   
   p2 <- test2 %>%
     filter(dataset == dat) %>%
-    slice_max(abs(NES.logfc),n = 20) %>%
+    slice_max(abs(NES.logfc),n = 30,na_rm = T) %>%
     mutate(Term = str_remove_all(pathway,pattern = "REACTOME_") %>% str_sub(start = 1,end = 50)) %>%
     mutate(Term = fct_reorder(Term, NES.logfc,.desc = F)) %>%
     mutate(direction = factor(sign(NES.logfc),labels = c(1,-1),levels = c(1,-1))) %>%
@@ -334,4 +335,20 @@ list_plot2 <- lapply(c("res_MS_shr"),function(dat){
 })
 
 wrap_plots(list_plot2)
-ggsave("../../out/image/202_GSEA_top20_REACTOME_nonredundant_MS.pdf",width = 12,height = 10)
+ggsave("../../out/image/202_GSEA_top20_REACTOME_nonredundant_MS.pdf",width = 12,height = 12)
+
+# -------------------------------------------------------------------------
+# check the IL13 signature
+df_tables_GSEA_rankPvalue %>%
+  filter(str_detect(pathway,pattern = "INTERLEUKIN"))
+
+df_tables_GSEA_rankPvalue %>%
+  slice_max(abs(NES),n = 30) %>%
+  pull(NES) %>% abs() %>% min()
+
+df_tables_GSEA_rankLogFC %>%
+  filter(str_detect(pathway,pattern = "INTERLEUKIN"))
+
+df_tables_GSEA_rankLogFC %>%
+  slice_max(abs(NES),n = 30) %>%
+  pull(NES) %>% abs() %>% min()

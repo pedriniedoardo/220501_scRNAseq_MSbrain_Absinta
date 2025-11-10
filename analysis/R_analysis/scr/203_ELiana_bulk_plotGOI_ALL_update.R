@@ -24,7 +24,8 @@ test_DEGS <- readxl::read_xlsx("../../data/signatures/eliana_endo_ms_update/DEGs
 
 # rank them by top absolute logFC and pick the topmost disregulated
 test_DEGS %>%
-  arrange(desc(logCPM)) %>% print(n=40)
+  arrange(desc(logCPM)) %>% 
+  # print(n=40)
   arrange(desc(abs(logFC)))
 
 test_DEGS %>%
@@ -37,6 +38,10 @@ lut <- colData(data) %>%
 
 # GOI <- c(sig_B$symbol,sig_D$symbol)
 # GOI <- c("SERPINA1","PROX1","PODXL","IGFBP4")
+# REACTOME_INTERLEUKIN_10_SIGNALING (rank pvalue)
+# GOI <- c("CSF2","IL1B","CSF3","ICAM1","LIF","CCL2","CSF1","IL1A","IL6","CXCL8","CXCL1","PTGS2")
+
+# old leading edges REACTOME_INTERLEUKIN_4_AND_INTERLEUKIN_13_SIGNALING
 GOI <- c("IL1B","HGF","LIF","ICAM1","PIM1" )
 
 # GOI <- subset_genes
@@ -78,11 +83,15 @@ counts(data,normalized=T)%>%
   # add the milion reads per sample
   left_join(MR,by = "sample") %>%
   left_join(lut,by = c("sample" = "HUGE.ID")) %>%
+  mutate(test = case_when(sample %in% c("RNA_MRA_04")~"RNA_MRA_04",
+                          T ~ "other")) %>%
   mutate(count_norm_adj = count + 0.5) %>%
+  #
+  mutate(symbol = factor(symbol,levels = GOI)) %>%
   # ggplot(aes(x=Group,y = count_norm_adj,label=clone))+
   ggplot(aes(x=Group,y = count_norm_adj))+
   geom_boxplot(outlier.shape = NA,alpha=0.5)+
-  geom_point(position = position_jitter(width = 0.1),alpha=0.6)+
+  geom_point(aes(col=test),position = position_jitter(width = 0.1),alpha=0.6)+
   facet_wrap(~symbol,scales = "free") + scale_y_log10() + theme_bw() +
   # geom_text_repel()+
   theme(strip.background = element_blank(),
