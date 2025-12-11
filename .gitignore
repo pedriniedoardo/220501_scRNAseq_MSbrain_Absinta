@@ -8,3 +8,9 @@ data/
 .RData
 .Rproj.user
 .Ruserdata
+rcloneGdrivePersonal_data.out
+rcloneGdrivePersonal_data.err
+rcloneGdrivePersonal_data.log
+rcloneGdrivePersonal_out.out
+rcloneGdrivePersonal_out.err
+rcloneGdrivePersonal_out.log
