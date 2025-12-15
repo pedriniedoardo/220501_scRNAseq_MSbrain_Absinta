@@ -461,3 +461,41 @@ counts(data,normalized=T)%>%
   theme(strip.background = element_blank(),
         panel.border = element_rect(colour = "black", fill = NA))
 
+# -------------------------------------------------------------------------
+# maretina asked to build a metadata for the aggregated expression of the samples
+# expression values comes from the normalized counts + 0.5 as recommended in deseq2
+exp_value <- counts(data,normalized=T)%>%
+  data.frame()%>%
+  rownames_to_column("symbol") %>%
+  filter(symbol %in% GOI) %>%
+  pivot_longer(names_to = "sample",values_to = "count",-symbol) %>%
+  # add the milion reads per sample
+  left_join(MR,by = "sample") %>%
+  left_join(lut,by = "sample") %>%
+  mutate(count_norm_adj = count + 0.5)%>%
+  mutate(treat = fct_relevel(RNA_snn_res.0.5,"0")) %>%
+  select(symbol,count,MR,sample_cell = sample.id,disease,RNA_snn_res.0.5,sizeFactor,count_norm_adj)
+
+# pull the metadata for the samples
+exp_value_full <- LUT_sample %>%
+  left_join(sobj@meta.data %>%
+              group_by(sample,disease,pathology,batch,patient,patient2,plaque,sex,age,pmi) %>%
+              summarise(),by = c("sample","disease")) %>%
+  left_join(exp_value,by = c("sample_cell","disease","RNA_snn_res.0.5"))
+
+# save the table with metadata
+write_tsv(exp_value_full,"../../out/table/142_exp_value_full_DNMT3A_absinta.tsv")
+
+# confirm the plot
+exp_value_full %>%
+  mutate(treat = fct_relevel(RNA_snn_res.0.5,"0")) %>%
+  # mutate(symbol = factor(symbol,levels = c("PROCR","GDF9", "GDF11","TGFB1", "TGFB2", "TGFB3","INHBA", "INHBB","MSTN"))) %>%
+  ggplot(aes(x=treat,y = count_norm_adj))+
+  geom_boxplot(outlier.shape = NA,linewidth = 1)+
+  geom_point(position = position_jitter(width = 0.1),alpha=0.6,size = 3)+
+  facet_wrap(~symbol,scales = "free",ncol=3)+
+  scale_y_continuous(trans = "log1p") +
+  # scale_y_log10()+
+  theme_bw(base_size = 22,base_rect_size = 2)+
+  theme(strip.background = element_blank(),
+        panel.border = element_rect(colour = "black", fill = NA))
