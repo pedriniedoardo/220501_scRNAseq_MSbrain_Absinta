@@ -859,7 +859,7 @@ list_plot_VAS <- pmap(list(plot_list_VAS,names(plot_list_VAS)), function(x,y){
     dplyr::slice(1:10) %>%
     mutate(Term = str_sub(Term,start = 1,end = 30)) %>%
     mutate(Term = fct_reorder(Term, Combined.Score,.desc = F)) %>%
-    # ggplot(aes(y=Term,x=Combined.Score,size = Odds.Ratio,col = Adjusted.P.value)) + geom_point() + facet_wrap(~annotation,scales = "free",ncol = 1)+theme_bw() +
+    # ggplot(aes(y=Term,x=Combined.Score,size = Odds.Ratio,col = Adjusted.P.value)) + geom_point() + facet_wrap(~annotation,scales = "free",ncol = 1)+theme_bw() +
     ggplot(aes(y=Term,x=Combined.Score,size = Odds.Ratio,col = Adjusted.P.value)) + geom_point() + facet_wrap(~annotation,scales = "free",ncol = 1)+theme_bw() +
     scale_color_gradientn(colors = c("red","blue"),
                           values = rescale(c(0,1)),
