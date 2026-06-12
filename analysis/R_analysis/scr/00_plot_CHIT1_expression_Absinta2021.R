@@ -16,6 +16,10 @@ library(Nebulosa)
 # read in the dataset -----------------------------------------------------
 data.combined <- readRDS("../../data/all20_immune.rds")
 DimPlot(data.combined,label = T,raster = F,group.by = "seurat_clusters")
+DimPlot(data.combined,label = F,raster = F,group.by = "seurat_clusters")
+
+DimPlot(data.combined,label = T,raster = F,group.by = "seurat_clusters") | DimPlot(data.combined,label = F,raster = F,group.by = "seurat_clusters")
+
 
 # str_subset(rownames(data.combined),pattern = "HIF")
 # define the gene of interest GOI
@@ -357,3 +361,15 @@ df_cor_stats <- df_avg %>%
       broom::tidy()
   }) %>%
   bind_rows(.id = "seurat_clusters")
+
+
+# marker clusters -------------------------------------------------------
+# check if the GOI are in any fo the maker per cluster
+# set the ident to the cluster
+Idents(data.combined) <- "seurat_clusters"
+# DimPlot(data.combined)
+df_markers <- SeuratWrappers::RunPrestoAll(data.combined,min.pct = 0.05,logfc.threshold = 0)
+
+# check the stat for the goi
+df_markers %>%
+  filter(gene %in% GOI)
