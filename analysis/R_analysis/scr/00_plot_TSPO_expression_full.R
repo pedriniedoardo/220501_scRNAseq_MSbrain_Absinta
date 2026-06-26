@@ -331,7 +331,7 @@ df_avg_wide <- df_avg %>%
   pivot_wider(names_from = gene,values_from = avg_exp)
 
 df_avg_wide %>%
-  ggplot(aes(x=CHIT1,y=TSPO)) +
+  ggplot(aes(x=FTL,y=TSPO)) +
   geom_smooth(method = "lm") +
   geom_point() +
   scale_x_continuous(trans = "log1p") +
@@ -347,7 +347,440 @@ df_cor_stats <- df_avg %>%
     test <- x %>%
       pivot_wider(names_from = gene,values_from = avg_exp)
     
-    cor.test(test$CHIT1,test$TSPO) %>%
+    cor.test(test$FTL,test$TSPO) %>%
       broom::tidy()
   }) %>%
   bind_rows(.id = "expertAnno.l1")
+
+# -------------------------------------------------------------------------
+# explore the dataset only for the ENDO subset
+data.combined_endo <- readRDS("../../out/object/130_VAS_subcluster_HarmonySample.rds")
+
+DimPlot(data.combined_endo,group.by = "RNA_snn_res.0.4",label = T)
+plot_density(data.combined_endo, GOI_endo,reduction = "umap")
+
+# track also the high confidence endo cells
+meta_endo <- data.combined_endo@meta.data %>%
+  mutate(endo_confidence = case_when(RNA_snn_res.0.4 %in% c(0,5,9)~"endo",
+                                     T~"other")) %>%
+  select(endo_confidence)
+
+# add the new meta to the main metadata
+data.combined_endo_update <- AddMetaData(data.combined_endo,meta_endo)
+
+DimPlot(data.combined_endo_update,group.by = "endo_confidence",label = T)
+
+# average the expression by disease and region
+# data.combined$group <- paste0(data.combined$orig.ident,".",data.combined$cell_type2)
+data.combined_endo_update$group <- paste0(data.combined_endo_update$origin,"-",
+                                          data.combined_endo_update$disease,"-",
+                                          data.combined_endo_update$expertAnno.l1,"-",
+                                          data.combined_endo_update$orig.ident)
+data.combined_endo_update$group2 <- paste0(data.combined_endo_update$origin,"-",
+                                           data.combined_endo_update$disease,"-",
+                                           data.combined_endo_update$endo_confidence,"-",
+                                           data.combined_endo_update$orig.ident)
+
+# for dge
+data.combined_endo_update$location_disease <- paste0(data.combined_endo_update$origin,"-",
+                                                     data.combined_endo_update$disease)
+data.combined_endo_update$location_disease_endo_confidence <- paste0(data.combined_endo_update$origin,"-",
+                                                                     data.combined_endo_update$disease,"-",
+                                                                     data.combined_endo_update$endo_confidence)
+data.combined_endo_update$disease_endo_confidence <- paste0(data.combined_endo_update$disease,"-",
+                                                            data.combined_endo_update$endo_confidence)
+
+
+# data.combined$group2 <- paste0(data.combined$orig.ident,".",data.combined$treat,".",data.combined$cell_type2)
+# Idents(data.combined_endo_update) <- "group"
+# DefaultAssay(data.combined_endo_update) <- "RNA"
+
+GOI_endo <- c("TSPO")
+
+average_GOI_endo <- AverageExpression(data.combined_endo_update,features = GOI_endo,group.by = c("group"))
+average_GOI_endo2 <- AverageExpression(data.combined_endo_update,features = GOI_endo,group.by = c("group2"))
+
+df_avg_endo <- average_GOI_endo$RNA %>%
+  data.frame() %>%
+  rownames_to_column("gene") %>%
+  mutate(gene = GOI_endo) %>%
+  pivot_longer(names_to = "group",values_to = "avg_exp",-gene) %>%
+  # filter(!str_detect(group,pattern="doublet|unassigned")) |> 
+  mutate(location_class = str_extract(group,pattern = c("cortex|wm"))) %>% 
+  mutate(disease_class = str_extract(group,pattern = c("CTRL|MS"))) %>%
+  mutate(donor = str_extract(group,pattern = c("s\\d+"))) %>%
+  mutate(disease2 = paste(location_class,disease_class,sep = "|"))
+
+df_avg_endo2 <- average_GOI_endo2$RNA %>%
+  data.frame() %>%
+  rownames_to_column("gene") %>%
+  mutate(gene = GOI_endo) %>%
+  pivot_longer(names_to = "group",values_to = "avg_exp",-gene) %>%
+  # filter(!str_detect(group,pattern="doublet|unassigned")) |> 
+  mutate(location_class = str_extract(group,pattern = c("cortex|wm"))) %>% 
+  mutate(disease_class = str_extract(group,pattern = c("CTRL|MS"))) %>%
+  mutate(donor = str_extract(group,pattern = c("s\\d+"))) %>%
+  mutate(endo_class = str_extract(group,pattern = c("endo|other"))) %>%
+  mutate(disease2 = paste(location_class,disease_class,sep = "|"))
+
+# split by conidtion and location
+p01 <- df_avg_endo |>
+  # ggplot(aes(x=NMDA_time,y=count)) + 
+  ggplot(aes(x=disease2,y=avg_exp))+
+  geom_boxplot(outlier.shape = NA)+
+  geom_point(position = position_jitter(width = 0.1),alpha = 0.6)+
+  # geom_col()+
+  # facet_wrap(~cell_type2,scales = "free")+
+  theme_bw()+
+  theme(axis.text.x = element_text(hjust = 1,angle = 90))+
+  theme(strip.background = element_blank(),
+        panel.border = element_rect(colour = "black", fill = NA))+
+  facet_wrap(~gene,scales = "free")+
+  scale_y_continuous(trans = "log1p") +
+  labs(title = "Endo subset")
+
+p012 <- df_avg_endo2 |>
+  # ggplot(aes(x=NMDA_time,y=count)) + 
+  ggplot(aes(x=disease2,y=avg_exp,color = endo_class))+
+  geom_boxplot(outlier.shape = NA)+
+  geom_point(position = position_jitterdodge(jitter.width = 0.1,jitter.height = 0,dodge.width = 0.8),alpha = 0.6)+
+  # geom_col()+
+  # facet_wrap(~cell_type2,scales = "free")+
+  theme_bw()+
+  theme(axis.text.x = element_text(hjust = 1,angle = 90))+
+  theme(strip.background = element_blank(),
+        panel.border = element_rect(colour = "black", fill = NA))+
+  facet_wrap(~gene,scales = "free")+
+  scale_y_continuous(trans = "log1p") +
+  labs(title = "Endo subset")
+
+
+# do the same as above but split by condition
+p02 <- df_avg_endo |>
+  # ggplot(aes(x=NMDA_time,y=count)) + 
+  ggplot(aes(x=disease_class,y=avg_exp))+
+  geom_boxplot(outlier.shape = NA)+
+  geom_point(position = position_jitter(width = 0.1),alpha = 0.6)+
+  # geom_col()+
+  # facet_wrap(~cell_type2,scales = "free")+
+  theme_bw()+
+  theme(axis.text.x = element_text(hjust = 1,angle = 90))+
+  theme(strip.background = element_blank(),
+        panel.border = element_rect(colour = "black", fill = NA))+
+  facet_wrap(~gene,scales = "free")+
+  scale_y_continuous(trans = "log1p") +
+  labs(title = "Endo subset")
+
+p022 <- df_avg_endo2 |>
+  # ggplot(aes(x=NMDA_time,y=count)) + 
+  ggplot(aes(x=disease_class,y=avg_exp,color = endo_class))+
+  geom_boxplot(outlier.shape = NA)+
+  geom_point(position = position_jitterdodge(jitter.width = 0.1,jitter.height = 0,dodge.width = 0.8),alpha = 0.6)+
+  # geom_col()+
+  # facet_wrap(~cell_type2,scales = "free")+
+  theme_bw()+
+  theme(axis.text.x = element_text(hjust = 1,angle = 90))+
+  theme(strip.background = element_blank(),
+        panel.border = element_rect(colour = "black", fill = NA))+
+  facet_wrap(~gene,scales = "free")+
+  scale_y_continuous(trans = "log1p") +
+  labs(title = "Endo subset")
+
+p02 | p01
+p022 | p012
+
+# -------------------------------------------------------------------------
+# add the meta from endo subset to the main annotation
+# the idea is to check if the expression of TSPO comes mainly from the high confidence endo subset of the other vascular cells
+data.combined_test <- AddMetaData(data.combined,meta_endo)
+
+# add the meta to the main object
+data.combined_test$location_disease_cellid_endo_confidence <- paste0(data.combined_test$origin,"-",
+                                                              data.combined_test$disease,"-",
+                                                              data.combined_test$expertAnno.l1,"-",
+                                                              data.combined_test$endo_confidence,"-",
+                                                              data.combined_test$orig.ident)
+# used for DGE at the single cell level
+data.combined_test$cellid_endo_confidence <- paste0(data.combined_test$expertAnno.l1,"-",
+                                                    data.combined_test$endo_confidence)
+# data.combined$group2 <- paste0(data.combined$orig.ident,".",data.combined$treat,".",data.combined$cell_type2)
+average_GOI_test <- AverageExpression(data.combined_test,features = GOI_endo,group.by = c("location_disease_cellid_endo_confidence"))
+
+df_avg_test <- average_GOI_test$RNA %>%
+  data.frame() %>%
+  rownames_to_column("gene") %>%
+  mutate(gene = GOI_endo) %>%
+  pivot_longer(names_to = "group",values_to = "avg_exp",-gene) %>%
+  # filter(!str_detect(group,pattern="doublet|unassigned")) |> 
+  mutate(location_class = str_extract(group,pattern = c("cortex|wm"))) %>% 
+  mutate(disease_class = str_extract(group,pattern = c("CTRL|MS"))) %>%
+  mutate(donor = str_extract(group,pattern = c("s\\d+"))) %>%
+  mutate(endo_class = str_extract(group,pattern = c("endo|other"))) %>%
+  mutate(expertAnno.l1 = str_extract(group,pattern = c("AST|EPENDYMA|EXC|NEU|IMM|INH|NEU|LYM|OLIGO|OPC|VAS"))) %>%
+  mutate(disease2 = paste(location_class,disease_class,sep = "|"))
+
+# save the table of average expression
+df_avg_test %>%
+  write_tsv("../../out/table/00_avgExp_data.combined_endo_confidence.tsv")
+
+df_avg_test |>
+  # ggplot(aes(x=NMDA_time,y=count)) + 
+  ggplot(aes(x=expertAnno.l1,y=avg_exp,color = endo_class))+
+  geom_boxplot(outlier.shape = NA)+
+  geom_point(position = position_jitterdodge(jitter.width = 0.1,jitter.height = 0,dodge.width = 0.8),alpha = 0.6)+
+  # geom_col()+
+  # facet_wrap(~cell_type2,scales = "free")+
+  theme_bw()+
+  theme(axis.text.x = element_text(hjust = 1,angle = 90))+
+  theme(strip.background = element_blank(),
+        panel.border = element_rect(colour = "black", fill = NA))+
+  facet_wrap(~gene,scales = "free")+
+  scale_y_continuous(trans = "log1p")
+
+# try markers at the sc level
+DefaultAssay(data.combined_test) <- "RNA"
+Idents(data.combined_test) <- "cellid_endo_confidence"
+table(Idents(data.combined_test))
+
+sobj_total_markers_test <- RunPrestoAll(data.combined_test,
+                                        only.pos = F,
+                                        min.pct = 0.01,
+                                        logfc.threshold = 0)
+
+# check the GOIs
+sobj_total_markers_test %>%
+  filter(gene %in% GOI_endo)
+
+sobj_total_markers_test %>%
+  write_tsv("../../out/table/00_markers_data.combined_endo_confidence.tsv")
+
+# -------------------------------------------------------------------------
+
+
+# -------------------------------------------------------------------------
+# make the comparison for the subset of VAS cells
+# the idea is to identify the main source of the expressio of TSPO from the VAS subcluster
+DefaultAssay(data.combined_endo_update) <- "RNA"
+Idents(data.combined_endo_update) <- "RNA_snn_res.0.4"
+table(Idents(data.combined_endo_update))
+
+(DimPlot(data.combined_endo,group.by = "RNA_snn_res.0.4",label = T) + ggtitle("Harmony Sample"))
+(DimPlot(data.combined_endo,split.by = "disease",group.by = "RNA_snn_res.0.4",label = T) + ggtitle("Harmony Sample"))
+# (DimPlot(data.combined_endo,split.by = "location_disease") + ggtitle("Harmony Sample"))
+
+# small marker panel to justify the identity of each RNA_snn_res.0.4 cluster (vascular subtypes + likely contaminants picked up from the broader WM+CX dataset)
+# 0: capillary/BBB endothelial | 5: venous endothelial | 9: arterial endothelial
+# 4: ambiguous/non-specific (ribosomal+metallothionein-high, no coherent canonical EC/pericyte/SMC signal - likely a high-depth or stress/IFN substate)
+# 2: pericyte, capillary-type (PDGFRB/ABCC9/CSPG4-high) | 6: pericyte, precapillary/ensheathing-type (RGS5/NDUFA4L2/HIGD1B/MUSTN1-high)
+# 7: smooth muscle cell | 1: perivascular fibroblast | 3: neuron | 8: oligodendrocyte | 10: astrocyte | 11: immune/microglia | 12: OPC
+marker_panel_VAS <- list(
+  "Endo" = c("CLDN5","PECAM1","FLT1"),
+  "Art EC" = c("BMX","SEMA3G","EFNB2"),
+  "Ven EC" = c("VWF","NR2F2"),
+  "Peri" = c("RGS5","KCNJ8","ABCC9","HIGD1B","NDUFA4L2","PDGFRB"),
+  "SMC" = c("ACTA2","TAGLN","MYH11"),
+  "Fibro" = c("COL1A2","DCN","FBLN1"),
+  "OPC" = c("PDGFRA","CSPG4","VCAN","PTPRZ1"),
+  "Oligo" = c("PLP1","MOG","MBP"),
+  "Astro" = c("AQP4","GFAP","SLC1A2"),
+  "Neu" = c("SNAP25","SYT1"),
+  "Imm" = c("PTPRC","CSF1R","P2RY12")
+)
+
+test <- DotPlot(data.combined_endo_update, features = marker_panel_VAS, group.by = "RNA_snn_res.0.4")
+# ggsave("../../out/image/00_dotplot_VAS_subcluster_res0.4_markers.pdf",width = 12,height = 5)
+
+df_test <- lapply(marker_panel_VAS,function(x){
+  test$data %>% 
+    filter(features.plot %in% x)
+}) %>% 
+  bind_rows(.id = "cell_type")
+
+test_long01 <- df_test %>%
+  # force the order
+  mutate(id = factor(id,levels = c(0,9,5,4,2,6,7,1,12,8,10,3,11))) %>% 
+  mutate(cell_type = factor(cell_type,levels = c("Endo","Art EC","Ven EC","Peri","SMC","Fibro","OPC","Oligo","Astro","Neu","Imm"))) %>% 
+  ggplot(aes(x = features.plot,y = id)) +
+  geom_point(aes(size = pct.exp, col = avg.exp.scaled))+
+  scale_radius(range = c(0, 8)) +
+  facet_grid(~cell_type,scales = "free",space = "free")+
+  theme_cowplot()+
+  theme(strip.background = element_blank(),
+        axis.text.x = element_text(hjust = 1,angle = 90),
+        strip.text.x = element_text(angle = 90))+
+  scale_color_gradient(low = "lightgrey",high = "blue",limits = c(-1,2),oob = scales::squish)
+ggsave(plot = test_long01,filename = "../../out/image/00_dotplot_res0.4_VAS_subcluster.pdf",width = 10,height = 5)
+
+# priduce the markers
+sobj_total_h.res0.4 <- RunPrestoAll(data.combined_endo_update,
+                                    only.pos = F,
+                                    min.pct = 0.01,
+                                    logfc.threshold = 0)
+
+# save the table of all markers
+sobj_total_h.res0.4 %>%
+  write_tsv("../../out/table/00_markers_res0.4_VAS_subcluster.tsv")
+
+# check gois
+sobj_total_h.res0.4 %>%
+  filter(gene %in% GOI_endo)
+
+# -------------------------------------------------------------------------
+# test by disease
+DefaultAssay(data.combined_endo_update) <- "RNA"
+Idents(data.combined_endo_update) <- "location_disease"
+table(Idents(data.combined_endo_update))
+
+# find markers for every cluster compared to all remaining cells, picj the reference and run aver all the other levels
+pct2.id_vec <- c("wm-CTRL","cortex-CTRL")
+
+list_res2 <- lapply(pct2.id_vec, function(pct2.id){
+  # track the progress
+  print(pct2.id)
+  
+  # build the comparisons
+  pct1.id_vec <- table(Idents(data.combined_endo_update)) %>% names() %>% str_subset(negate = T,pattern = pct2.id)
+  
+  # make the comparisons
+  list_res <- lapply(pct1.id_vec,function(pct1.id){
+    # track the progress
+    print(pct1.id)
+    
+    # run the DGE
+    sobj_total_h.disease <- RunPresto(data.combined_endo_update,
+                                      ident.1 = pct1.id,
+                                      ident.2 = pct2.id,
+                                      only.pos = F,
+                                      min.pct = 0.01,
+                                      logfc.threshold = 0) %>%
+      rownames_to_column("gene") %>%
+      mutate(pct.1_id = pct1.id,
+             pct.2_id = pct2.id,
+             test = paste0(pct.1_id,"_vs_",pct2.id))
+  })
+  
+  # make a data.frame
+  list_res %>%
+    bind_rows()
+  
+})
+
+# make a single data.frame
+df_res <- list_res2 %>%
+  bind_rows()
+
+df_res$test %>% table()
+
+df_res %>%
+  filter(gene %in% c("TSPO"))
+
+# save the table of all markers
+df_res %>%
+  write_tsv("../../out/table/00_DEG_disease_VAS_subcluster_disease.tsv")
+
+# -------------------------------------------------------------------------
+# test by disease endo class and location
+DefaultAssay(data.combined_endo_update) <- "RNA"
+Idents(data.combined_endo_update) <- "location_disease_endo_confidence"
+table(Idents(data.combined_endo_update))
+
+# find markers for every cluster compared to all remaining cells, picj the reference and run aver all the other levels
+pct2.id_vec2 <- c("wm-CTRL-endo","cortex-CTRL-endo")
+
+list_res3 <- lapply(pct2.id_vec2, function(pct2.id){
+  # track the progress
+  print(pct2.id)
+  
+  # build the comparisons
+  pct1.id_vec <- table(Idents(data.combined_endo_update)) %>% names() %>% str_subset(negate = T,pattern = pct2.id)
+  
+  # make the comparisons
+  list_res <- lapply(pct1.id_vec,function(pct1.id){
+    # track the progress
+    print(pct1.id)
+    
+    # run the DGE
+    sobj_total_h.disease <- RunPresto(data.combined_endo_update,
+                                      ident.1 = pct1.id,
+                                      ident.2 = pct2.id,
+                                      only.pos = F,
+                                      min.pct = 0.01,
+                                      logfc.threshold = 0) %>%
+      rownames_to_column("gene") %>%
+      mutate(pct.1_id = pct1.id,
+             pct.2_id = pct2.id,
+             test = paste0(pct.1_id,"_vs_",pct2.id))
+  })
+  
+  # make a data.frame
+  list_res %>%
+    bind_rows()
+  
+})
+
+# make a single data.frame
+df_res2 <- list_res3 %>%
+  bind_rows()
+
+df_res2$test %>% table()
+
+df_res2 %>%
+  filter(gene %in% c("TSPO"))
+
+# save the table of all markers
+df_res2 %>%
+  write_tsv("../../out/table/00_DEG_disease_VAS_subcluster_disease2.tsv")
+
+
+# -------------------------------------------------------------------------
+# test by disease and endo class
+DefaultAssay(data.combined_endo_update) <- "RNA"
+Idents(data.combined_endo_update) <- "disease_endo_confidence"
+table(Idents(data.combined_endo_update))
+
+# find markers for every cluster compared to all remaining cells, picj the reference and run aver all the other levels
+pct2.id_vec3 <- c("CTRL-endo")
+
+list_res4 <- lapply(pct2.id_vec3, function(pct2.id){
+  # track the progress
+  print(pct2.id)
+  
+  # build the comparisons
+  pct1.id_vec <- table(Idents(data.combined_endo_update)) %>% names() %>% str_subset(negate = T,pattern = pct2.id)
+  
+  # make the comparisons
+  list_res <- lapply(pct1.id_vec,function(pct1.id){
+    # track the progress
+    print(pct1.id)
+    
+    # run the DGE
+    sobj_total_h.disease <- RunPresto(data.combined_endo_update,
+                                      ident.1 = pct1.id,
+                                      ident.2 = pct2.id,
+                                      only.pos = F,
+                                      min.pct = 0.01,
+                                      logfc.threshold = 0) %>%
+      rownames_to_column("gene") %>%
+      mutate(pct.1_id = pct1.id,
+             pct.2_id = pct2.id,
+             test = paste0(pct.1_id,"_vs_",pct2.id))
+  })
+  
+  # make a data.frame
+  list_res %>%
+    bind_rows()
+  
+})
+
+# make a single data.frame
+df_res3 <- list_res4 %>%
+  bind_rows()
+
+df_res3$test %>% table()
+
+df_res2 %>%
+  filter(gene %in% c("TSPO"))
+
+# save the table of all markers
+df_res2 %>%
+  write_tsv("../../out/table/00_DEG_disease_VAS_subcluster_disease2.tsv")
