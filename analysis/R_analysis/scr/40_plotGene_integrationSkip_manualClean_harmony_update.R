@@ -614,268 +614,282 @@ df_avg_cellType |>
 #   ff_plot(dependent = "avg_exp",explanatory = "pathology_class2")
 # 
 # 
-# # test pos TSPO vs neg TSPO MG --------------------------------------------
-# # subset only the MG cells. define the positive and negative cells per TSPO and run a de analysis to compare pull the genes
-# # subset onlyt he MG cells
-# sobj_MG <- subset(data.combined,subset = expertAnno.l1 == 'MG')
-# 
-# sobj_MG@meta.data
-# 
-# # for each cell fetch TSPO expression
-# sobj_MG_TSPO <- FetchData(sobj_MG,"TSPO",slot = "data") |> 
-#   rownames_to_column("barcodes")
-# 
-# # add the TSPO expression to the original meta
-# sobj_MG$TSPO <- sobj_MG@meta.data |> 
-#   rownames_to_column("barcodes") |> 
-#   left_join(sobj_MG_TSPO) |> 
-#   pull("TSPO")
-# 
-# # build a category form the expression value
-# sobj_MG$TSPO_cat <- case_when(sobj_MG$TSPO == 0~"neg",
-#                               T~"pos")
-# 
-# # summarise the number of cells
-# table(sobj_MG$TSPO_cat)
-# 
-# ggplot(aes(x=TSPO))+geom_histogram()
-# 
-# # run the DE
-# Idents(sobj_MG) <- "TSPO_cat"
-# 
-# # avg_logFC: log fold-chage of the average expression between the two groups. Positive values indicate that the gene is more highly expressed in the first group 
-# res_test_TSPO_MG <- RunPresto(object = sobj_MG,ident.1 = "pos",ident.2 = "neg")
-# 
-# # save the table of top markers
-# res_test_TSPO_MG |> 
-#   rownames_to_column("gene") |> 
-#   mutate(cell_id = "MG") |> 
-#   write_tsv("../../out/table/res_test_TSPO_MG.tsv")
-# 
-# # plot volcano
-# volcano_tot <- read_tsv("../../out/table/res_test_TSPO_MG.tsv") %>%
-#   mutate(DE_cat = case_when(avg_log2FC > 0.5 & p_val_adj < 0.01~"up",
-#                             avg_log2FC < (-0.5) & p_val_adj < 0.01~"down",
-#                             T~"no"))
-# 
-# ggplot() +
-#   geom_point(data = volcano_tot%>%filter(DE_cat=="no"),aes(x=avg_log2FC,y=-log10(p_val_adj)),size=1,alpha=0.2)+theme_bw()+
-#   geom_point(data = volcano_tot%>%filter(DE_cat!="no"),aes(x=avg_log2FC,y=-log10(p_val_adj)),size=1,alpha=0.2,col="red")+theme_bw()+
-#   ggrepel::geom_text_repel(data = volcano_tot%>%filter(DE_cat!="no"),aes(x=avg_log2FC,y=-log10(p_val_adj),label=gene))+theme_bw()+theme(strip.background = element_blank())
-# ggsave("../../out/image/volcano_test_TSPO_MG.pdf",width = 12,height = 9)
-# 
-# # try a quick and dirty enrichR on the posirive and negatives
-# # library(tidyverse)
-# # library(enrichR)
-# # library(scales)
-# # library(patchwork)
-# 
-# # run enrichr with the list of genes in the module
-# # DB selection ------------------------------------------------------------
-# dbs <- listEnrichrDbs()
-# #filter fo the db of interest
-# dbs %>%
-#   filter(str_detect(libraryName,pattern = "Atlas"))
-# 
-# dbs %>%
-#   filter(str_detect(libraryName,pattern = "Cell"))
-# 
+# test pos TSPO vs neg TSPO MG --------------------------------------------
+# subset only the MG cells. define the positive and negative cells per TSPO and run a de analysis to compare pull the genes
+# subset onlyt he MG cells
+sobj_MG <- subset(data.combined,subset = expertAnno.l1 == 'IMM')
+
+sobj_MG@meta.data
+
+# for each cell fetch TSPO expression
+sobj_MG_TSPO <- FetchData(sobj_MG,"TSPO",slot = "data") |>
+  rownames_to_column("barcodes")
+
+# add the TSPO expression to the original meta
+sobj_MG$TSPO <- sobj_MG@meta.data |>
+  rownames_to_column("barcodes") |>
+  left_join(sobj_MG_TSPO) |>
+  pull("TSPO")
+
+# build a category form the expression value
+sobj_MG$TSPO_cat <- case_when(sobj_MG$TSPO == 0~"neg",
+                              T~"pos")
+
+# summarise the number of cells
+table(sobj_MG$TSPO_cat)
+
+# run the DE
+Idents(sobj_MG) <- "TSPO_cat"
+
+# avg_logFC: log fold-chage of the average expression between the two groups. Positive values indicate that the gene is more highly expressed in the first group
+res_test_TSPO_MG <- RunPresto(object = sobj_MG,ident.1 = "pos",ident.2 = "neg")
+
+# save the table of top markers
+res_test_TSPO_MG |>
+  rownames_to_column("gene") |>
+  mutate(cell_id = "MG") |>
+  write_tsv("../../out/table/revision/res_test_TSPO_MG_update.tsv")
+
+# check a sample of the the updatea analysis
+res_test_TSPO_MG |>
+  rownames_to_column("gene") |>
+  mutate(cell_id = "MG") %>%
+  filter(gene %in% c("CD68","GRN","B2M","FCGR3A","FCGR1A"))
+
+# check the old dataset
+read_tsv("../../out/table/res_test_TSPO_MG.tsv") %>%
+  filter(gene %in% c("CD68","GRN","B2M","FCGR3A","FCGR1A"))
+
+# plot volcano
+volcano_tot <- read_tsv("../../out/table/revision/res_test_TSPO_MG_update.tsv") %>%
+  mutate(DE_cat = case_when(avg_log2FC > 0.5 & p_val_adj < 0.01~"up",
+                            avg_log2FC < (-0.5) & p_val_adj < 0.01~"down",
+                            T~"no"))
+
+ggplot() +
+  geom_point(data = volcano_tot%>%filter(DE_cat=="no"),aes(x=avg_log2FC,y=-log10(p_val_adj)),size=1,alpha=0.2)+theme_bw()+
+  geom_point(data = volcano_tot%>%filter(DE_cat!="no"),aes(x=avg_log2FC,y=-log10(p_val_adj)),size=1,alpha=0.2,col="red")+theme_bw()+
+  ggrepel::geom_text_repel(data = volcano_tot%>%filter(DE_cat!="no"),aes(x=avg_log2FC,y=-log10(p_val_adj),label=gene))+theme_bw()+theme(strip.background = element_blank())
+ggsave("../../out/image/revision/volcano_test_TSPO_MG_update.pdf",width = 12,height = 9)
+
+# try a quick and dirty enrichR on the posirive and negatives
+# library(tidyverse)
+# library(enrichR)
+# library(scales)
+# library(patchwork)
+
+# run enrichr with the list of genes in the module
+# DB selection ------------------------------------------------------------
+dbs <- listEnrichrDbs()
+#filter fo the db of interest
+dbs %>%
+  filter(str_detect(libraryName,pattern = "Atlas"))
+
+dbs %>%
+  filter(str_detect(libraryName,pattern = "Reactome"))
+
+dbs %>%
+  filter(str_detect(libraryName,pattern = "Cell"))
+
 # dbs_db <- c("KEGG_2021_Human","MSigDB_Hallmark_2020","Reactome_2016","HDSigDB_Human_2021","Azimuth_Cell_Types_2021","GO_Biological_Process_2023","Descartes_Cell_Types_and_Tissue_2021","CellMarker_Augmented_2021")
-# 
-# # query -------------------------------------------------------------------
-# # seelct only the clusters with more than 10 genes as degs
-# 
-# # pull the gene names dividing the up regulated from the downregulated
-# list_genes <- list(list_UP = volcano_tot %>% filter(DE_cat=="up") %>% pull(gene),
-#                    list_DOWN = volcano_tot %>% filter(DE_cat=="down") %>% pull(gene))
-# 
-# # define the background
-# # background <- df_modules$feature
-# 
-# # x <- list_res_tot_UP_filter$`DeMye_vs_Norm|clust_5`
-# list_enrichr <- lapply(list_genes,function(x){
-#   genes <- x
-#   # out_enrich <- enrichr(genes, dbs_db,background = background,include_overlap=T)
-#   out_enrich <- enrichr(genes, dbs_db)
-#   
-#   # filter out the annotations without an output
-#   filter_out <- lapply(out_enrich,function(x){dim(x)[1]}) %>% 
-#     unlist()
-#   
-#   out_enrich[filter_out>0] %>%
-#     bind_rows(.id = "annotation")
-# }) %>%
-#   bind_rows(.id = "comparison")
-# 
-# list_enrichr %>%
-#   write_tsv("../../out/table/enrichR_test_TSPO_MG.tsv")
-# 
-# # list  <- read_tsv("out/table/enrichR_out_all_filtered_clusters_CTRL_vs_CSF_harmonyMartina.tsv")
-# 
-# plot_list_UP <- list_enrichr %>%
-#   split(f = .$comparison)
-# 
-# # library(scales)
-# list_plot_UP <- pmap(list(plot_list_UP,names(plot_list_UP)), function(x,y){
-#   x %>%
-#     group_by(annotation) %>%
-#     arrange(P.value) %>%
-#     dplyr::slice(1:10) %>%
-#     mutate(Term = str_sub(Term,start = 1,end = 30)) %>%
-#     mutate(Term = fct_reorder(Term, Combined.Score,.desc = F)) %>%
-#     # ggplot(aes(y=Term,x=Combined.Score,size = Odds.Ratio,col = Adjusted.P.value)) + geom_point() + facet_wrap(~annotation,scales = "free",ncol = 1)+theme_bw() +
-#     ggplot(aes(y=Term,x=Combined.Score,size = Odds.Ratio,col = Adjusted.P.value)) + geom_point() + facet_wrap(~annotation,scales = "free",ncol = 1)+theme_bw() +
-#     scale_color_gradientn(colors = c("red","blue"),
-#                           values = rescale(c(0,1)),
-#                           limits = c(0,0.2))+
-#     theme(strip.background = element_blank(),
-#           panel.border = element_rect(colour = "black", fill = NA))+
-#     ggtitle(y)
-#   # scale_color_gradient(low = "red",high = "blue")
-#   
-#   #ggsave(paste0("image/enrichR_out_",y,".pdf"),width = 7,height = 15)
-# })
-# 
-# wrap_plots(list_plot_UP)
-# ggsave("../../out/image/enrichR_test_TSPO_MG.pdf",width = 13,height = 25,limitsize = FALSE)
-# 
-# # test pos TSPO vs neg TSPO VAS -------------------------------------------
-# # do the same as above but for the vas cells.
-# # subset only the VAS cells. define the positive and negative cells per TSPO and run a de analysis to compare pull the genes
-# # subset onlyt he VAS cells
-# sobj_VAS <- subset(data.combined,subset = expertAnno.l1 == 'VAS')
-# 
-# sobj_VAS@meta.data
-# dim(sobj_VAS)
-# 
-# # for each cell fetch TSPO expression
-# sobj_VAS_TSPO <- FetchData(sobj_VAS,"TSPO",slot = "data") |> 
-#   rownames_to_column("barcodes")
-# 
-# # add the TSPO expression to the original meta
-# sobj_VAS$TSPO <- sobj_VAS@meta.data |> 
-#   rownames_to_column("barcodes") |> 
-#   left_join(sobj_VAS_TSPO) |> 
-#   pull("TSPO")
-# 
-# # build a category form the expression value
-# sobj_VAS$TSPO_cat <- case_when(sobj_VAS$TSPO == 0~"neg",
-#                                T~"pos")
-# 
-# # summarise the number of cells
-# table(sobj_VAS$TSPO_cat)
-# 
-# sobj_VAS@meta.data |>
-#   ggplot(aes(x=TSPO))+geom_histogram()
-# 
-# # run the DE
-# Idents(sobj_VAS) <- "TSPO_cat"
-# 
-# # avg_logFC: log fold-chage of the average expression between the two groups. Positive values indicate that the gene is more highly expressed in the first group 
-# res_test_TSPO_VAS <- RunPresto(object = sobj_VAS,ident.1 = "pos",ident.2 = "neg")
-# 
-# # save the table of top markers
-# res_test_TSPO_VAS |> 
-#   rownames_to_column("gene") |> 
-#   mutate(cell_id = "VAS") |> 
-#   write_tsv("../../out/table/res_test_TSPO_VAS.tsv")
-# 
-# # plot volcano
-# volcano_tot_VAS <- read_tsv("../../out/table/res_test_TSPO_VAS.tsv") %>%
-#   mutate(DE_cat = case_when(avg_log2FC > 0.5 & p_val_adj < 0.01~"up",
-#                             avg_log2FC < (-0.5) & p_val_adj < 0.01~"down",
-#                             T~"no"))
-# 
-# ggplot() +
-#   geom_point(data = volcano_tot_VAS%>%filter(DE_cat=="no"),aes(x=avg_log2FC,y=-log10(p_val_adj)),size=1,alpha=0.2)+theme_bw()+
-#   geom_point(data = volcano_tot_VAS%>%filter(DE_cat!="no"),aes(x=avg_log2FC,y=-log10(p_val_adj)),size=1,alpha=0.2,col="red")+theme_bw()+
-#   ggrepel::geom_text_repel(data = volcano_tot_VAS%>%filter(DE_cat!="no"),aes(x=avg_log2FC,y=-log10(p_val_adj),label=gene))+theme_bw()+theme(strip.background = element_blank())
-# ggsave("../../out/image/volcano_test_TSPO_VAS.pdf",width = 12,height = 9)
-# 
-# # sofia shared a list of genes to highlight
-# GOI <- c("HLA-A","B2M","IFI27","HLA-C","FTL","HLA-B","BST2","TMEM59","ICAM2","ACTB","ACTG1","FTH1","IGFBP7","PECAM1","VEGFC","ADAMTS1","CD99","CXCL1","CXCL12")
-# ggplot() +
-#   geom_point(data = volcano_tot_VAS%>%filter(DE_cat=="no"),aes(x=avg_log2FC,y=-log10(p_val_adj)),size=1,alpha=0.2)+theme_bw()+
-#   geom_point(data = volcano_tot_VAS%>%filter(DE_cat!="no"),aes(x=avg_log2FC,y=-log10(p_val_adj)),size=1,alpha=0.2,col="red")+theme_bw()+
-#   ggrepel::geom_text_repel(data = volcano_tot_VAS%>%filter(gene %in% GOI),nudge_x = 0.5,nudge_y = 0.5,min.segment.length = 0,segment.alpha=0.3,aes(x=avg_log2FC,y=-log10(p_val_adj),label=gene,col=DE_cat))+
-#   theme_bw()+
-#   theme(strip.background = element_blank())+scale_color_manual(values = c("black","red"))+
-#   theme(legend.position = "none")
-# ggsave("../../out/image/volcano_test_TSPO_VAS2.pdf",width = 9,height = 9)
-# 
-# # try a quick and dirty enrichR on the posirive and negatives
-# # library(tidyverse)
-# # library(enrichR)
-# # library(scales)
-# # library(patchwork)
-# 
-# # run enrichr with the list of genes in the module
-# # DB selection ------------------------------------------------------------
-# dbs <- listEnrichrDbs()
-# #filter fo the db of interest
-# dbs %>%
-#   filter(str_detect(libraryName,pattern = "Atlas"))
-# 
-# dbs %>%
-#   filter(str_detect(libraryName,pattern = "Cell"))
-# 
+
+dbs_db <- c("KEGG_2021_Human","MSigDB_Hallmark_2020","Reactome_Pathways_2024","HDSigDB_Human_2021","Azimuth_Cell_Types_2021","GO_Biological_Process_2023","Descartes_Cell_Types_and_Tissue_2021","CellMarker_Augmented_2021")
+
+# query -------------------------------------------------------------------
+# seelct only the clusters with more than 10 genes as degs
+
+# pull the gene names dividing the up regulated from the downregulated
+list_genes <- list(list_UP = volcano_tot %>% filter(DE_cat=="up") %>% pull(gene),
+                   list_DOWN = volcano_tot %>% filter(DE_cat=="down") %>% pull(gene))
+
+# define the background
+# background <- df_modules$feature
+
+# x <- list_res_tot_UP_filter$`DeMye_vs_Norm|clust_5`
+list_enrichr <- lapply(list_genes,function(x){
+  genes <- x
+  # out_enrich <- enrichr(genes, dbs_db,background = background,include_overlap=T)
+  out_enrich <- enrichr(genes, dbs_db)
+
+  # filter out the annotations without an output
+  filter_out <- lapply(out_enrich,function(x){dim(x)[1]}) %>%
+    unlist()
+
+  out_enrich[filter_out>0] %>%
+    bind_rows(.id = "annotation")
+}) %>%
+  bind_rows(.id = "comparison")
+
+list_enrichr %>%
+  write_tsv("../../out/table/revision/enrichR_test_TSPO_MG_update.tsv")
+
+# read_tsv("../../out/table/enrichR_test_TSPO_MG.tsv")
+
+# list  <- read_tsv("out/table/enrichR_out_all_filtered_clusters_CTRL_vs_CSF_harmonyMartina.tsv")
+
+plot_list_UP <- list_enrichr %>%
+  split(f = .$comparison)
+
+# library(scales)
+list_plot_UP <- pmap(list(plot_list_UP,names(plot_list_UP)), function(x,y){
+  x %>%
+    group_by(annotation) %>%
+    arrange(P.value) %>%
+    dplyr::slice(1:10) %>%
+    mutate(Term = str_sub(Term,start = 1,end = 30)) %>%
+    mutate(Term = fct_reorder(Term, Combined.Score,.desc = F)) %>%
+    # ggplot(aes(y=Term,x=Combined.Score,size = Odds.Ratio,col = Adjusted.P.value)) + geom_point() + facet_wrap(~annotation,scales = "free",ncol = 1)+theme_bw() +
+    ggplot(aes(y=Term,x=Combined.Score,size = Odds.Ratio,col = Adjusted.P.value)) + geom_point() + facet_wrap(~annotation,scales = "free",ncol = 1)+theme_bw() +
+    scale_color_gradientn(colors = c("red","blue"),
+                          values = rescale(c(0,1)),
+                          limits = c(0,0.2))+
+    theme(strip.background = element_blank(),
+          panel.border = element_rect(colour = "black", fill = NA))+
+    ggtitle(y)
+  # scale_color_gradient(low = "red",high = "blue")
+
+  #ggsave(paste0("image/enrichR_out_",y,".pdf"),width = 7,height = 15)
+})
+
+wrap_plots(list_plot_UP)
+ggsave("../../out/image/revision/enrichR_test_TSPO_MG_update.pdf",width = 13,height = 25,limitsize = FALSE)
+ 
+# test pos TSPO vs neg TSPO VAS -------------------------------------------
+# do the same as above but for the vas cells.
+# subset only the VAS cells. define the positive and negative cells per TSPO and run a de analysis to compare pull the genes
+# subset onlyt he VAS cells
+sobj_VAS <- subset(data.combined,subset = expertAnno.l1 == 'VAS')
+
+sobj_VAS@meta.data
+dim(sobj_VAS)
+
+# for each cell fetch TSPO expression
+sobj_VAS_TSPO <- FetchData(sobj_VAS,"TSPO",slot = "data") |>
+  rownames_to_column("barcodes")
+
+# add the TSPO expression to the original meta
+sobj_VAS$TSPO <- sobj_VAS@meta.data |>
+  rownames_to_column("barcodes") |>
+  left_join(sobj_VAS_TSPO) |>
+  pull("TSPO")
+
+# build a category form the expression value
+sobj_VAS$TSPO_cat <- case_when(sobj_VAS$TSPO == 0~"neg",
+                               T~"pos")
+
+# summarise the number of cells
+table(sobj_VAS$TSPO_cat)
+
+# run the DE
+Idents(sobj_VAS) <- "TSPO_cat"
+
+# avg_logFC: log fold-chage of the average expression between the two groups. Positive values indicate that the gene is more highly expressed in the first group
+res_test_TSPO_VAS <- RunPresto(object = sobj_VAS,ident.1 = "pos",ident.2 = "neg")
+
+# save the table of top markers
+res_test_TSPO_VAS |>
+  rownames_to_column("gene") |>
+  mutate(cell_id = "VAS") |>
+  write_tsv("../../out/table/revision/res_test_TSPO_VAS_update.tsv")
+
+# plot volcano
+volcano_tot_VAS <- read_tsv("../../out/table/revision/res_test_TSPO_VAS_update.tsv") %>%
+  mutate(DE_cat = case_when(avg_log2FC > 0.5 & p_val_adj < 0.01~"up",
+                            avg_log2FC < (-0.5) & p_val_adj < 0.01~"down",
+                            T~"no"))
+
+ggplot() +
+  geom_point(data = volcano_tot_VAS%>%filter(DE_cat=="no"),aes(x=avg_log2FC,y=-log10(p_val_adj)),size=1,alpha=0.2)+theme_bw()+
+  geom_point(data = volcano_tot_VAS%>%filter(DE_cat!="no"),aes(x=avg_log2FC,y=-log10(p_val_adj)),size=1,alpha=0.2,col="red")+theme_bw()+
+  ggrepel::geom_text_repel(data = volcano_tot_VAS%>%filter(DE_cat!="no"),aes(x=avg_log2FC,y=-log10(p_val_adj),label=gene))+theme_bw()+theme(strip.background = element_blank())
+ggsave("../../out/image/revision/volcano_test_TSPO_VAS_update.pdf",width = 12,height = 9)
+
+# sofia shared a list of genes to highlight
+GOI <- c("HLA-A","B2M","IFI27","HLA-C","FTL","HLA-B","BST2","TMEM59","ICAM2","ACTB","ACTG1","FTH1","IGFBP7","PECAM1","VEGFC","ADAMTS1","CD99","CXCL1","CXCL12")
+ggplot() +
+  geom_point(data = volcano_tot_VAS%>%filter(DE_cat=="no"),aes(x=avg_log2FC,y=-log10(p_val_adj)),size=1,alpha=0.2)+theme_bw()+
+  geom_point(data = volcano_tot_VAS%>%filter(DE_cat!="no"),aes(x=avg_log2FC,y=-log10(p_val_adj)),size=1,alpha=0.2,col="red")+theme_bw()+
+  ggrepel::geom_text_repel(data = volcano_tot_VAS%>%filter(gene %in% GOI),nudge_x = 0.5,nudge_y = 0.5,min.segment.length = 0,segment.alpha=0.3,aes(x=avg_log2FC,y=-log10(p_val_adj),label=gene,col=DE_cat))+
+  theme_bw()+
+  theme(strip.background = element_blank())+scale_color_manual(values = c("black","red"))+
+  theme(legend.position = "none")
+ggsave("../../out/image/revision/volcano_test_TSPO_VAS2_update.pdf",width = 9,height = 9)
+
+# try a quick and dirty enrichR on the posirive and negatives
+# library(tidyverse)
+# library(enrichR)
+# library(scales)
+# library(patchwork)
+
+# run enrichr with the list of genes in the module
+# DB selection ------------------------------------------------------------
+dbs <- listEnrichrDbs()
+#filter fo the db of interest
+dbs %>%
+  filter(str_detect(libraryName,pattern = "Atlas"))
+
+dbs %>%
+  filter(str_detect(libraryName,pattern = "Cell"))
+
 # dbs_db <- c("KEGG_2021_Human","MSigDB_Hallmark_2020","Reactome_2016","HDSigDB_Human_2021","Azimuth_Cell_Types_2021","GO_Biological_Process_2023","Descartes_Cell_Types_and_Tissue_2021","CellMarker_Augmented_2021")
-# 
-# # query -------------------------------------------------------------------
-# # seelct only the clusters with more than 10 genes as degs
-# 
-# # pull the gene names dividing the up regulated from the downregulated
-# # there are no down genes in this case
-# list_genes_VAS <- list(list_UP = volcano_tot_VAS %>% filter(DE_cat=="up") %>% pull(gene),
-#                        list_DOWN = volcano_tot_VAS %>% filter(DE_cat=="down") %>% pull(gene))
-# 
-# # define the background
-# # background <- df_modules$feature
-# 
-# # x <- list_res_tot_UP_filter$`DeMye_vs_Norm|clust_5`
-# list_enrichr_VAS <- lapply(list_genes_VAS,function(x){
-#   genes <- x
-#   # out_enrich <- enrichr(genes, dbs_db,background = background,include_overlap=T)
-#   out_enrich <- enrichr(genes, dbs_db)
-#   
-#   # filter out the annotations without an output
-#   filter_out <- lapply(out_enrich,function(x){dim(x)[1]}) %>% 
-#     unlist()
-#   
-#   out_enrich[filter_out>0] %>%
-#     bind_rows(.id = "annotation")
-# }) %>%
-#   bind_rows(.id = "comparison")
-# 
-# list_enrichr_VAS %>%
-#   write_tsv("../../out/table/enrichR_test_TSPO_VAS.tsv")
-# 
-# # list  <- read_tsv("out/table/enrichR_out_all_filtered_clusters_CTRL_vs_CSF_harmonyMartina.tsv")
-# 
-# plot_list_VAS <- list_enrichr_VAS %>%
-#   split(f = .$comparison)
-# 
-# # library(scales)
-# list_plot_VAS <- pmap(list(plot_list_VAS,names(plot_list_VAS)), function(x,y){
-#   x %>%
-#     group_by(annotation) %>%
-#     arrange(P.value) %>%
-#     dplyr::slice(1:10) %>%
-#     mutate(Term = str_sub(Term,start = 1,end = 30)) %>%
-#     mutate(Term = fct_reorder(Term, Combined.Score,.desc = F)) %>%
-#     # ggplot(aes(y=Term,x=Combined.Score,size = Odds.Ratio,col = Adjusted.P.value)) + geom_point() + facet_wrap(~annotation,scales = "free",ncol = 1)+theme_bw() +
-#     ggplot(aes(y=Term,x=Combined.Score,size = Odds.Ratio,col = Adjusted.P.value)) + geom_point() + facet_wrap(~annotation,scales = "free",ncol = 1)+theme_bw() +
-#     scale_color_gradientn(colors = c("red","blue"),
-#                           values = rescale(c(0,1)),
-#                           limits = c(0,0.2))+
-#     theme(strip.background = element_blank(),
-#           panel.border = element_rect(colour = "black", fill = NA))+
-#     ggtitle(y)
-#   # scale_color_gradient(low = "red",high = "blue")
-#   
-#   #ggsave(paste0("image/enrichR_out_",y,".pdf"),width = 7,height = 15)
-# })
-# 
-# wrap_plots(list_plot_VAS)
-# ggsave("../../out/image/enrichR_test_TSPO_VAS.pdf",width = 6,height = 25,limitsize = FALSE)
-# 
+
+dbs_db <- c("KEGG_2021_Human","MSigDB_Hallmark_2020","Reactome_Pathways_2024","HDSigDB_Human_2021","Azimuth_Cell_Types_2021","GO_Biological_Process_2023","Descartes_Cell_Types_and_Tissue_2021","CellMarker_Augmented_2021")
+
+# query -------------------------------------------------------------------
+# seelct only the clusters with more than 10 genes as degs
+
+# pull the gene names dividing the up regulated from the downregulated
+# there are no down genes in this case
+list_genes_VAS <- list(list_UP = volcano_tot_VAS %>% filter(DE_cat=="up") %>% pull(gene),
+                       list_DOWN = volcano_tot_VAS %>% filter(DE_cat=="down") %>% pull(gene))
+
+# define the background
+# background <- df_modules$feature
+
+# x <- list_res_tot_UP_filter$`DeMye_vs_Norm|clust_5`
+list_enrichr_VAS <- lapply(list_genes_VAS,function(x){
+  genes <- x
+  # out_enrich <- enrichr(genes, dbs_db,background = background,include_overlap=T)
+  out_enrich <- enrichr(genes, dbs_db)
+
+  # filter out the annotations without an output
+  filter_out <- lapply(out_enrich,function(x){dim(x)[1]}) %>%
+    unlist()
+
+  out_enrich[filter_out>0] %>%
+    bind_rows(.id = "annotation")
+}) %>%
+  bind_rows(.id = "comparison")
+
+list_enrichr_VAS %>%
+  write_tsv("../../out/table/revision/enrichR_test_TSPO_VAS_update.tsv")
+
+# list  <- read_tsv("out/table/enrichR_out_all_filtered_clusters_CTRL_vs_CSF_harmonyMartina.tsv")
+
+plot_list_VAS <- list_enrichr_VAS %>%
+  split(f = .$comparison)
+
+# library(scales)
+list_plot_VAS <- pmap(list(plot_list_VAS,names(plot_list_VAS)), function(x,y){
+  x %>%
+    group_by(annotation) %>%
+    arrange(P.value) %>%
+    dplyr::slice(1:10) %>%
+    mutate(Term = str_sub(Term,start = 1,end = 30)) %>%
+    mutate(Term = fct_reorder(Term, Combined.Score,.desc = F)) %>%
+    # ggplot(aes(y=Term,x=Combined.Score,size = Odds.Ratio,col = Adjusted.P.value)) + geom_point() + facet_wrap(~annotation,scales = "free",ncol = 1)+theme_bw() +
+    ggplot(aes(y=Term,x=Combined.Score,size = Odds.Ratio,col = Adjusted.P.value)) + geom_point() + facet_wrap(~annotation,scales = "free",ncol = 1)+theme_bw() +
+    scale_color_gradientn(colors = c("red","blue"),
+                          values = rescale(c(0,1)),
+                          limits = c(0,0.2))+
+    theme(strip.background = element_blank(),
+          panel.border = element_rect(colour = "black", fill = NA))+
+    ggtitle(y)
+  # scale_color_gradient(low = "red",high = "blue")
+
+  #ggsave(paste0("image/enrichR_out_",y,".pdf"),width = 7,height = 15)
+})
+
+wrap_plots(list_plot_VAS)
+ggsave("../../out/image/revision/enrichR_test_TSPO_VAS_update.pdf",width = 6,height = 25,limitsize = FALSE)
+

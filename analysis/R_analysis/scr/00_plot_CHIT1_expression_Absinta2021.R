@@ -20,7 +20,6 @@ DimPlot(data.combined,label = F,raster = F,group.by = "seurat_clusters")
 
 DimPlot(data.combined,label = T,raster = F,group.by = "seurat_clusters") | DimPlot(data.combined,label = F,raster = F,group.by = "seurat_clusters")
 
-
 # str_subset(rownames(data.combined),pattern = "HIF")
 # define the gene of interest GOI
 # GOI <- c("Irf7","Ddx58")
@@ -373,3 +372,6 @@ df_markers <- SeuratWrappers::RunPrestoAll(data.combined,min.pct = 0.05,logfc.th
 # check the stat for the goi
 df_markers %>%
   filter(gene %in% GOI)
+
+df_markers %>%
+  write_tsv("../../out/table/00_FindAllMarkers_TSPO_CHIT1_Abisnta2021_IMM.tsv")
