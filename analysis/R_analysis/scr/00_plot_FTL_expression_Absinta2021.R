@@ -162,7 +162,7 @@ ggsave("../../out/image/00_density_plot_FTL_TSPO_Abisnta2021_IMM.pdf",width = 8,
 
 plot_density(data.combined, GOI, reduction = "umap") &
   scale_color_gradientn(colors = c("blue", "white", "red"))
-ggsave("../../out/image/00_density_plot_FTL_TSPO_Abisnta2021_IMM_UpdatePalette.pdf",width = 8,height = 3)
+ggsave("../../out/image/00_density_plot_FTL_TSPO_Abisnta2021_IMM_UpdatePalette.pdf",width = 10,height = 4)
 
 df_tot %>%
   # filter(NMDA_time%in%c("NMDA_00","NMDA_03","NMDA_06","NMDA_12","NMDA_24")) %>%
