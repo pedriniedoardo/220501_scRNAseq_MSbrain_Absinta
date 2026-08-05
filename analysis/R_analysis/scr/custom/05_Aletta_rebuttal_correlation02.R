@@ -1,6 +1,6 @@
 # AIM ---------------------------------------------------------------------
 # Task for the rebuttal of the paper from Aletta
-# check how the curated FTH1/GPNMB gene panel (lysosomal, iron and lipid handling modules) correlates with FTH1 and GPNMB across MG cells, pooling all samples regardless of source (disease, pathology, patient).
+# check how the curated FTL/GPNMB gene panel (lysosomal, iron and lipid handling modules) correlates with FTL and GPNMB across MG cells, pooling all samples regardless of source (disease, pathology, patient).
 # Expression is averaged per sample, correlated with Spearman, tested for significance (BH-adjusted), and summarized as a heatmap (annotated by gene module) and scatter plots highlighting the significantly correlated genes.
 
 # libraries ---------------------------------------------------------------
@@ -13,7 +13,7 @@ library(patchwork)
 # read in the full dataset from WM MG only (Martina's Nature dataset)
 data.combined <- readRDS("../../data/all20_immune.rds")
 p_umap_all <- DimPlot(data.combined,label = T,raster = F,group.by = "seurat_clusters")
-ggsave(plot = p_umap_all,filename = "../../out/image/custom/05_UMAP_all_clusters.pdf",width = 6,height = 5)
+# ggsave(plot = p_umap_all,filename = "../../out/image/custom/05_UMAP_all_clusters.pdf",width = 6,height = 5)
 
 # load the table compiled by Aletta
 df_GOI <- read_csv("../../data/20260803_Geneset_Aletta_FTH1_GPNMB.csv") %>%
@@ -23,7 +23,7 @@ df_GOI <- read_csv("../../data/20260803_Geneset_Aletta_FTH1_GPNMB.csv") %>%
   dplyr::select(-rep)
 
 # define the GOI mentioned by Aletta
-GOI <- c("FTH1","GPNMB")
+GOI <- c("FTL","GPNMB")
 
 # wrangling ---------------------------------------------------------------
 # Aletta is interested in only the MG subset, therefore remove the clusters that are not MG
@@ -31,7 +31,7 @@ data.combined$is_MG <- !(data.combined$seurat_clusters %in% c(10,9,7,4))
 data.combined_filter <- subset(data.combined, subset = is_MG == T)
 
 p_umap_MG <- DimPlot(data.combined_filter,label = T,raster = F,group.by = "seurat_clusters")
-ggsave(plot = p_umap_MG,filename = "../../out/image/custom/05_UMAP_MG_filtered.pdf",width = 6,height = 5)
+# ggsave(plot = p_umap_MG,filename = "../../out/image/custom/05_UMAP_MG_filtered.pdf",width = 6,height = 5)
 
 # aggregate the expression for all the genes per sample
 
@@ -51,7 +51,7 @@ average_RNA <- AverageExpression(data.combined_filter,group.by = c("group")) %>%
 df_group_n <- data.combined_filter@meta.data %>%
   group_by(group) %>%
   summarise(n = n())
-write_tsv(df_group_n,"../../out/table/custom/05_Aletta_correlation_group_cellCounts.tsv")
+# write_tsv(df_group_n,"../../out/table/custom/05_Aletta_correlation_group_cellCounts.tsv")
 
 # run the correlation
 average_GOI_RNA <- average_RNA[rownames(average_RNA) %in% c(df_GOI$Gene,GOI),] %>%
@@ -89,7 +89,7 @@ ht01 <- Heatmap(corr_mat,
                 row_names_gp = gpar(col = label_col),
                 column_names_gp = gpar(col = label_col))
 
-pdf("../../out/image/custom/05_heatmap_correlation_GOI_module.pdf",width = 17,height = 12)
+pdf("../../out/image/custom/05_heatmap_correlation_GOI_module02.pdf",width = 17,height = 12)
 draw(ht01)
 dev.off()
 
@@ -117,7 +117,7 @@ df_pval <- purrr::map_dfr(GOI,function(goi){
 # save the full stats table for reporting
 df_pval %>%
   arrange(target,padj) %>%
-  write_tsv("../../out/table/custom/05_Aletta_correlation_FTH1_GPNMB_stats.tsv")
+  write_tsv("../../out/table/custom/05_Aletta_correlation_FTL_GPNMB_stats02.tsv")
 
 # wrangle to wide format (rho/padj per GOI) for the scatter
 df_pval_wide <- df_pval %>%
@@ -125,11 +125,11 @@ df_pval_wide <- df_pval %>%
 
 # scatter plot focussing only fo the GOIs
 df_corr_scatter <- df_pval_wide %>%
-  dplyr::rename(FTH1 = rho_FTH1,GPNMB = rho_GPNMB) %>%
+  dplyr::rename(FTL = rho_FTL,GPNMB = rho_GPNMB) %>%
   left_join(df_GOI,by = "Gene") %>%
   mutate(sig = case_when(
-    padj_FTH1 < 0.05 & padj_GPNMB < 0.05 ~ "both",
-    padj_FTH1 < 0.05 ~ "FTH1 only",
+    padj_FTL < 0.05 & padj_GPNMB < 0.05 ~ "both",
+    padj_FTL < 0.05 ~ "FTL only",
     padj_GPNMB < 0.05 ~ "GPNMB only",
     TRUE ~ "ns"
   )) %>%
@@ -137,7 +137,7 @@ df_corr_scatter <- df_pval_wide %>%
 
 p_scatter_sig <- df_corr_scatter %>%
   filter(sig != "ns") %>%
-  ggplot(aes(x=GPNMB,y=FTH1)) +
+  ggplot(aes(x=GPNMB,y=FTL)) +
   geom_point(aes(col = Module,shape = sig)) +
   ggrepel::geom_text_repel(aes(label = Gene),bg.r = 0.15,bg.color = "white",size = 3) +
   theme_minimal() +
@@ -148,7 +148,7 @@ p_scatter_sig <- df_corr_scatter %>%
   labs(title = "Significant genes only")
 
 p_scatter_all <- df_corr_scatter %>%
-  ggplot(aes(x=GPNMB,y=FTH1)) +
+  ggplot(aes(x=GPNMB,y=FTL)) +
   geom_point(aes(col = Module)) +
   theme_minimal() +
   coord_fixed() +
@@ -159,7 +159,7 @@ p_scatter_all <- df_corr_scatter %>%
 
 p03 <- (p_scatter_all + p_scatter_sig) +
   plot_layout(guides = "collect") +
-  plot_annotation(title = "FTH1 vs GPNMB correlation across the gene panel",
-                   subtitle = "Spearman rho per gene (pseudobulk per sample, MG cells, all sources pooled)")
+  plot_annotation(title = "FTL vs GPNMB correlation across the gene panel",
+                  subtitle = "Spearman rho per gene (pseudobulk per sample, MG cells, all sources pooled)")
 
-ggsave(plot = p03 ,filename = "../../out/image/custom/05_scatter_FTH1_GPNMB_correlation.pdf",width = 15,height = 6)
+ggsave(plot = p03 ,filename = "../../out/image/custom/05_scatter_FTL_GPNMB_correlation02.pdf",width = 15,height = 6)
