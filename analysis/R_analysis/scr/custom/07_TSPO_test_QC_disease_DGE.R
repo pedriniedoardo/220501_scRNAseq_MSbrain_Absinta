@@ -776,21 +776,32 @@ df_enrichr_pairs %>%
   theme_bw() +
   theme(strip.background = element_blank(),
         panel.border = element_rect(colour = "black", fill = NA)) +
-  labs(x = "Combined.Score_full",y = "Combined.Score_test")
+  labs(x = "Combined.Score",y = "Combined.Score")
 ggsave("../../out/image/custom/07_TSPO_enrichR_scatter_CombinedScore_compare.pdf",width = 14,height = 8)
 
 # TSPO DGE pos vs neg split by disease (CTRL/MS) ---------------------------
 # same DGE as in 40_..., stratified within CTRL and within MS
+# Before running the actual DGE, test how many cells are there per condition
+table(sobj_MG$TSPO_cat,sobj_MG$disease)
+table(sobj_VAS$TSPO_cat,sobj_VAS$disease)
+
+table(sobj_MG$TSPO_cat,sobj_MG$disease,sobj_MG$origin)
+table(sobj_VAS$TSPO_cat,sobj_VAS$disease,sobj_VAS$origin)
+
+# there seems to be enough cells to run the DGE for MS and CTRL alone
+# sobj <- sobj_MG
+# cell_id <- "MG"
+
 run_DGE_TSPO_disease <- function(sobj,cell_id){
   map(sort(unique(sobj$disease)),function(disease_id){
     print(paste(cell_id,disease_id))
     sobj_sub <- subset(sobj,subset = disease == disease_id)
     Idents(sobj_sub) <- "TSPO_cat"
-    
+
     table(Idents(sobj_sub))
-    
+
     # avg_log2FC: positive values indicate higher expression in the pos group
-    RunPresto(object = sobj_sub,ident.1 = "pos",ident.2 = "neg") %>%
+    RunPresto(object = sobj_sub,ident.1 = "pos",ident.2 = "neg",min.pct = 0.01) %>%
       rownames_to_column("gene") %>%
       mutate(cell_id = cell_id,disease = disease_id)
   }) %>%
